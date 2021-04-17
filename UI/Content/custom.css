@@ -1,0 +1,73 @@
+﻿#localImg, #urlimage {
+    display: none;
+}
+
+#radioUrlImg, #radioFileImg {
+    display: inline-block;
+}
+
+.bg-greenyellow {
+    background-color: greenyellow !important;
+}
+
+.bg-black {
+    background-color: black !important;
+}
+
+.bg-darkgray {
+    background-color: #212121 !important;
+}
+
+.text-greenyellow {
+    color: greenyellow !important;
+}
+
+.text-green {
+    color: rgb(0, 128, 0) !important;
+}
+
+.w-35{
+    width: 40% !important;
+}
+
+.star03 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 25%, #71748d 25%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.star04 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 40%, #71748d 40%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.star05 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 50%, #71748d 50%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.star05 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 50%, #71748d 50%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.star05 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 50%, #71748d 50%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.star06 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 60%, #71748d 60%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.star07 {
+    background: linear-gradient(to right, #ffc107 0%, #ffc107 75%, #71748d 75%,#71748d 100%); /* W3C */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

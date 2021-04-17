@@ -1,0 +1,68 @@
+﻿@model List<UI.Models.RoomViewModel>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card bg-darkgray">
+                <img class="card-img-top img-fluid p-2 rounded" src="@item.ImagesUrl[0]" alt="Card image cap">
+                <div class="card-body">
+                    <h3 class="card-title text-warning">@item.Name</h3>
+                    <p class="card-text">Type: <strong>@item.DecorationType</strong></p>
+                    <p class="card-text">Price: <strong>@item.Price $ per hour</strong></p>
+
+                    @for (int i = 0; i < Math.Floor(@item.Rating) + 1; i++)
+                    {
+                        if (i > 0)
+                        {
+                            <span class="fa fa-star text-warning"></span>
+                        }
+                    }
+
+                    @if (@item.Rating - Math.Floor(@item.Rating) == 0)
+                    {
+                        <span class="fa fa-star"></span>
+                    }
+                    else if (@item.Rating - Math.Floor(@item.Rating) < 0.3)
+                    {
+                        <span class="fa fa-star star03"></span>
+                    }
+                    else if (@item.Rating - Math.Floor(@item.Rating) < 0.5 && @item.Rating - Math.Floor(@item.Rating) >= 0.3)
+                    {
+                        <span class="fa fa-star star04"></span>
+                    }
+                    else if (@item.Rating - Math.Floor(@item.Rating) == 0.5)
+                    {
+                        <span class="fa fa-star star05"></span>
+                    }
+                    else if (@item.Rating - Math.Floor(@item.Rating) < 0.8 && @item.Rating - Math.Floor(@item.Rating) > 0.5)
+                    {
+                        <span class="fa fa-star star06"></span>
+                    }
+                    else if (@item.Rating - Math.Floor(@item.Rating) < 1)
+                    {
+                        <span class="fa fa-star star07"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-star text-warning"></span>
+                    }
+
+                    @for (int i = 0; i < 5 - Math.Floor(@item.Rating); i++)
+                    {
+                        if (i > 0)
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    }
+                    <span class="text-success">@item.Rating</span>
+
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id })*@
+
+                    <br />
+                    <a class="btn bg-greenyellow m-1 float-right" onclick="showRoomDetails(@item.Id)">Show details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

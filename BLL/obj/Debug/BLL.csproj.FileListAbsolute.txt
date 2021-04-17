@@ -1,0 +1,16 @@
+C:\repos\QuestRooms\BLL\bin\Debug\BLL.dll.config
+C:\repos\QuestRooms\BLL\bin\Debug\BLL.dll
+C:\repos\QuestRooms\BLL\bin\Debug\BLL.pdb
+C:\repos\QuestRooms\BLL\bin\Debug\Binbin.Linq.PredicateBuilder.dll
+C:\repos\QuestRooms\BLL\bin\Debug\DAL.dll
+C:\repos\QuestRooms\BLL\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\repos\QuestRooms\BLL\bin\Debug\EntityFramework.dll
+C:\repos\QuestRooms\BLL\bin\Debug\DAL.pdb
+C:\repos\QuestRooms\BLL\bin\Debug\DAL.dll.config
+C:\repos\QuestRooms\BLL\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\repos\QuestRooms\BLL\bin\Debug\EntityFramework.xml
+C:\repos\QuestRooms\BLL\obj\Debug\BLL.csprojAssemblyReference.cache
+C:\repos\QuestRooms\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+C:\repos\QuestRooms\BLL\obj\Debug\BLL.csproj.CopyComplete
+C:\repos\QuestRooms\BLL\obj\Debug\BLL.dll
+C:\repos\QuestRooms\BLL\obj\Debug\BLL.pdb

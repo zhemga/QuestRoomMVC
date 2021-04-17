@@ -1,0 +1,12 @@
+﻿@model  List<UI.Models.RoomViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+    <div class="dashboard-wrapper">
+        <div class="container-fluid pt-4" id="roomsContainer">
+            @{ Html.RenderPartial("RoomsPartial", Model); }
+        </div>
+    </div>
+
+<h1>Index</h1>

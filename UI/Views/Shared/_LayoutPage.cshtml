@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+    <link href="~/Content/Style.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+</head>
+<body class="bg-black">
+    <div class="dashboard-main-wrapper">
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg fixed-top bg-darkgray border-warning border-bottom">
+                <a class="navbar-brand"><img src="~/Images/logo.png" />Questrooms</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mb-1">
+                        <li class="nav-item">
+                            <div id="custom-search" class="top-search-bar">
+                                <input class="form-control bg-dark border border-warning" type="text"
+                                       onkeydown="onSearch(event)"
+                                       placeholder="Search..">
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn bg-greenyellow m-2 mb-0 mr-4">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn bg-greenyellow m-2 mb-0 mr-4">Sign Up</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        @if (ViewBag.Types != null && ViewBag.Ratings != null)
+        {
+            <div class="nav-left-sidebar sidebar-dark">
+                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                    <div class="menu-list bg-black" style="overflow: hidden; width: auto; height: 100%;">
+                        <nav class="navbar navbar-expand-lg navbar-light">
+                            <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="navbar-collapse collapse" id="navbarNav" style="">
+                                <ul class="navbar-nav flex-column">
+                                    <li class="nav-divider text-warning">
+                                        Filters
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="text-dark fab fa-delicious"></i> Decorations</a>
+                                        <div id="submenu-1" class="rounded collapse submenu bg-darkgray p-1 pl-2" style="">
+                                            <ul class="nav flex-column">
+                                                @foreach (var item in ViewBag.Types)
+                                                {
+                                                        <li class="nav-item">
+                                                            <input class="mr-1" data-type="type" type="checkbox" id="@item" onclick="setFilter(this)" value="@item" name="@item" />
+                                                            <label for="@item">@item</label>
+                                                        </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="text-dark fa fa-star"></i> Rating</a>
+                                        <div id="submenu-2" class="rounded collapse submenu bg-darkgray p-1 pl-2" style="">
+                                            <ul class="nav flex-column">
+                                                @foreach (var item in ViewBag.Ratings)
+                                                {
+                                                    <li class="nav-item">
+                                                        <input class="mr-1" data-type="rating" type="checkbox" id="@item" onclick="setFilter(this)" value="@item" name="@item" />
+                                                        <label for="@item">@item <i class="fa fa-star"></i></label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div><div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 848px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                </div>
+            </div>
+        }
+
+        @RenderBody()
+    </div>
+
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/custom.js"></script>
+</body>
+</html>
