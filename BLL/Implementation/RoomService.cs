@@ -46,7 +46,7 @@ namespace BLL.Implementation
                 var tmp = PredicateBuilder.Create(group.FirstOrDefault().Predicate);
                 for (int i = 1; i < group.ToArray().Length; i++)
                 {
-                    tmp = tmp.Or(filters[i].Predicate);
+                    tmp = tmp.Or(group.ToArray()[i].Predicate);
                 }
                 builders.Add(tmp);
             }
@@ -54,7 +54,7 @@ namespace BLL.Implementation
             var builder = PredicateBuilder.Create(builders.FirstOrDefault());
             for (int i = 1; i < builders.ToArray().Length; i++)
             {
-                builder = builder.And(filters[i].Predicate);
+                builder = builder.And(builders[i]);
             }
 
             return _roomRepository.GetAll().Where(builder.Compile());
