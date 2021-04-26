@@ -11,6 +11,7 @@ namespace BLL.Interfaces
         IEnumerable<DecorationType> GetAllTypes();
         IEnumerable<Company> GetAllCompanies();
         Task AddRoomAsync(QuestRoom room);
+        Task DeleteRoomAsync(int id);
         IEnumerable<string> GetTypes();
         IEnumerable<string> GetRatings();
         QuestRoom GetRoom(int id);

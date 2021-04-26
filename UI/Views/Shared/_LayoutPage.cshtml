@@ -12,7 +12,7 @@
     <div class="dashboard-main-wrapper">
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg fixed-top bg-darkgray border-warning border-bottom">
-                <a class="navbar-brand"><img src="~/Images/logo.png" />Questrooms</a>
+                <a class="navbar-brand" onclick="index()"><img src="~/Images/logo.png" />Questrooms</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -30,6 +30,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="btn bg-greenyellow m-2 mb-0 mr-4">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn bg-danger m-2 mb-0 mr-4" onclick="addRoom()">Add questroom</a>
                         </li>
                     </ul>
                 </div>
@@ -53,7 +56,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link rounded" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="text-dark fab fa-delicious"></i> Decorations</a>
-                                        <div id="submenu-1" class="rounded collapse submenu bg-darkgray p-1 pl-2" style="">
+                                        <div id="submenu-1" class="rounded collapse submenu bg-darkgray p-1 pl-2 mb-2">
                                             <ul class="nav flex-column">
                                                 @foreach (var item in ViewBag.Types)
                                                 {
@@ -67,7 +70,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link rounded" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="text-dark fa fa-star"></i> Rating</a>
-                                        <div id="submenu-2" class="rounded collapse submenu bg-darkgray p-1 pl-2" style="">
+                                        <div id="submenu-2" class="rounded collapse submenu bg-darkgray p-1 pl-2  mb-2">
                                             <ul class="nav flex-column">
                                                 @foreach (var item in ViewBag.Ratings)
                                                 {

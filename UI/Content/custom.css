@@ -71,3 +71,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+textarea{
+    min-height: 150px !important;
+}

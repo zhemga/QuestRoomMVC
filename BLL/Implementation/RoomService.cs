@@ -84,5 +84,10 @@ namespace BLL.Implementation
         {
             return _companyRepository.GetAll();
         }
+
+        public async Task DeleteRoomAsync(int id)
+        {
+            await _roomRepository.DeleteAsync(id);
+        }
     }
 }

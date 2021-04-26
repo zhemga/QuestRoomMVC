@@ -21,6 +21,30 @@ function setFilter(element) {
     $("#roomsContainer").load(`/Rooms/Filter?type=${type}&value=${encodeURIComponent(value)}`);
 }
 
+function index() {
+    window.location = `/Rooms/Index`;
+}
+
 function showRoomDetails(id) {
     window.location = `/Rooms/Room?id=${id}`;
+}
+
+function addRoom() {
+    window.location = `/Rooms/AddRoom`;
+}
+
+function addOrder(id) {
+    window.location = `/Rooms/AddOrder?id=${id}`;
+}
+
+function deleteRoom(id) {
+
+    if (!confirm('Are you sure?')) {
+        e.preventDefault();
+    }
+    window.location = `/Rooms/Delete?id=${id}`;
+}
+
+function editRoom(id) {
+    window.location = `/Rooms/Edit?id=${id}`;
 }

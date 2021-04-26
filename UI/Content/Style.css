@@ -1094,6 +1094,7 @@ Top Header
 }
 
     .navbar-brand:hover {
+        cursor: pointer;
         color: greenyellow !important;
     }
 
