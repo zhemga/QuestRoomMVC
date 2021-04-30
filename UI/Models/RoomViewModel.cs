@@ -31,12 +31,14 @@ namespace UI.Models
         public string CompanyName { get; set; }
         [Required]
         [MaxLength(128)]
-        [Phone]
+        [CustomPhone]
         public string CompanyPhone { get; set; }
         [Required]
         [Range(1, 9999)]
         public int Price { get; set; }
         public string[] ImagesUrl { get; set; }
+        [Required]
+        public string ImagesUrlForForm { get; set; }
         [Required]
         [Range(0, 5)]
         public double Rating { get; set; }

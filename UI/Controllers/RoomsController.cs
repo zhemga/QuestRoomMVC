@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BLL.Filter;
 using BLL.Interfaces;
+using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -97,38 +99,44 @@ namespace UI.Controllers
             return View("RoomDetails", foundedRoom);
         }
 
+        [HttpGet]
         public ActionResult AddRoom()
         {
             ViewBag.Types = _roomService.GetTypes();
-            return View("AddRoom");
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(RoomViewModel model)
+        public async Task<ActionResult> AddRoom(RoomViewModel model)
         {
-            // 1) якщо картинка:
-            //    2) зберегти картинку на сервер
-            // 2.1) конвертувати картинку
-            //    3) записати шлях в модель
             if (!ModelState.IsValid)
             {
+                ViewBag.Types = _roomService.GetTypes();
                 return View();
             }
 
-            //if (image != null)
-            //{
-            //    var fileName = Guid.NewGuid().ToString() + ".jpg";
-
-            //    var bitmap = BitmapConvertor.Convert(image.InputStream, 200, 200);
-            //    var serverPath = Server.MapPath($"~/Images/{fileName}");
-
-            //    bitmap.Save(serverPath);
-            //    model.Image = $"/Images/{fileName}";
-            //}
-
-            //await _gameService.AddGameAsync(_mapper.Map<Game>(model));
+            await _roomService.AddRoomAsync(_mapper.Map<QuestRoom>(model));
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public JsonResult UploadImage()
+        {
+            string fileName = "";
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                HttpPostedFileBase file = Request.Files[i];
+
+                fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+
+                if (!Directory.Exists(Server.MapPath("~/Files/Images")))
+                    Directory.CreateDirectory(Server.MapPath("~/Files/Images"));
+
+                file.SaveAs(Server.MapPath("~/Files/Images/" + fileName));
+            }
+
+            return Json("/Files/Images/" + fileName);
         }
 
         public async Task<ActionResult> Delete(int id)

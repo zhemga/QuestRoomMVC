@@ -17,110 +17,147 @@
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning" } })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Description, new { @class = "w-100 bg-dark border border-warning text-light rounded" })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "text-greenyellow p-2 w-100 bg-dark border border-warning text-light rounded" })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.PassingTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Passing Time</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.PassingTime, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning", @type = "time" } })
+                    @Html.EditorFor(model => model.PassingTime, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @type = "time" } })
                     @Html.ValidationMessageFor(model => model.PassingTime, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.MinPlayers, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Min amount of players</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.MinPlayers, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning", @min = "1", @max = "10" } })
+                    @Html.EditorFor(model => model.MinPlayers, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @min = "1", @max = "10" } })
                     @Html.ValidationMessageFor(model => model.MinPlayers, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.MinAge, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Min age</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.MinAge, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning", @min = "1", @max = "100" } })
+                    @Html.EditorFor(model => model.MinAge, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @min = "1", @max = "100" } })
                     @Html.ValidationMessageFor(model => model.MinAge, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DifficultyLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Difficulty level</label>
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.DifficultyLevel, new SelectList(Enum.GetValues(typeof(UI.Models.DifficultyLevel))), new { @class = "form-control bg-dark border border-warning" } )
+                    @Html.DropDownListFor(model => model.DifficultyLevel, new SelectList(Enum.GetValues(typeof(UI.Models.DifficultyLevel))), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.DifficultyLevel, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.HorrorLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Horror level</label>
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.HorrorLevel, new SelectList(Enum.GetValues(typeof(UI.Models.HorrorLevel))), new { @class = "form-control bg-dark border border-warning" })
+                    @Html.DropDownListFor(model => model.HorrorLevel, new SelectList(Enum.GetValues(typeof(UI.Models.HorrorLevel))), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.HorrorLevel, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning" } })
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" } })
                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Company Name</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning" } })
+                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" } })
                     @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CompanyPhone, htmlAttributes: new { @class = "control-label col-md-2" })
-                <p class="text-warning">Pattern: (000) 000-0000</p> 
+                <label class="control-label col-md-2 text-success">Company Phone</label>
+                <p class="text-warning">Pattern: (000) 000-0000</p>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CompanyPhone, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning" }, @type = "tel", @pattern = "([0-9]{3}) [0-9]{3}-[0-9]{4}" })
+                    @Html.EditorFor(model => model.CompanyPhone, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" }, @type = "tel", @pattern = "([0-9]{3}) [0-9]{3}-[0-9]{4}" })
                     @Html.ValidationMessageFor(model => model.CompanyPhone, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning", @min = "1", @max = "9999" } })
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @min = "1", @max = "9999" } })
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <p class="text-warning">From 0 to 5 stars</p>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control bg-dark border border-warning", @type = "number", @min = "0", @max = "5", @step = "0.1" } })
+                    @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @type = "number", @min = "0", @max = "5", @step = "0.1" } })
                     @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DecorationType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2 text-success">Decoration Type</label>
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.DecorationType, new SelectList(ViewBag.Types), new { @class = "form-control bg-dark border border-warning" } )
+                    @Html.DropDownListFor(model => model.DecorationType, new SelectList(ViewBag.Types), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.DecorationType, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <section class="bg-darkgray rounded pt-3 pb-3 m-3 w-85 mt-4">
+
+                <div class="form-group">
+                    <p class="control-label col-md-2 text-success">Images</p>
+                    <p class="control-label col-md-2 text-warning">List of images (The first image is the main):</p>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.ImagesUrlForForm, htmlAttributes: new { @id = "listOfImages", @class = "text-greenyellow p-2 w-100 bg-dark border border-warning text-light rounded", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.ImagesUrlForForm, "", new { @class = "text-danger" })
+
+                        <br />
+                        <a class="btn btn-warning bg-greenyellow border-0" onclick="clearList()">Clear list</a>
+
+                        <p class="control-label col-md-2 text-warning mt-3">Enter image's URL:</p>
+                        <div class="input-group mt-2">
+                            <input id="imageUrl" type="url" class="text-greenyellow form-control bg-dark border border-warning" placeholder="Image's URL" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button id="btnAddUrl" class="btn btn-outline bg-greenyellow p-0 pl-3 pr-3" type="button" onclick="addUrlToList()">Add to list</button>
+                            </div>
+                        </div>
+
+                        <p class="control-label col-md-2 text-warning mt-3">Or upload image:</p>
+                        <div class="input-group d-flex align-items-stretch">
+                            <label class="input-group-btn m-0">
+                                <span class="btn btn-outline bg-greenyellow border-0 rounded-left rounded-right-0 h-100 browse-padding pl-3 pr-3 align-middle">
+                                    Browse&hellip; <input id="selectImageFile" type="file" accept="image/*" style="display: none;" multiple="multiple">
+                                </span>
+                            </label>
+                            <input type="text" placeholder="No image selected" class="form-control bg-dark border border-warning text-greenyellow">
+                            <div class="input-group-append">
+                                <button id="btnAddFile" class="btn btn-outline bg-greenyellow p-0 pl-3 pr-3" type="button" onclick="addFileToList()">Add to list</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

@@ -11,7 +11,7 @@
 <body class="bg-black">
     <div class="dashboard-main-wrapper">
         <div class="dashboard-header">
-            <nav class="navbar navbar-expand-lg fixed-top bg-darkgray border-warning border-bottom">
+            <nav class="navbar navbar-expand-lg fixed-top bg-darkgray border-warning border-bottom dark-shadow">
                 <a class="navbar-brand" onclick="index()"><img src="~/Images/logo.png" />Questrooms</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,7 +20,7 @@
                     <ul class="navbar-nav ml-auto mb-1">
                         <li class="nav-item">
                             <div id="custom-search" class="top-search-bar">
-                                <input class="form-control bg-dark border border-warning" type="text"
+                                <input class="form-control bg-dark border border-warning text-greenyellow rounded" type="text"
                                        onkeydown="onSearch(event)"
                                        placeholder="Search..">
                             </div>
@@ -60,10 +60,10 @@
                                             <ul class="nav flex-column">
                                                 @foreach (var item in ViewBag.Types)
                                                 {
-                                                        <li class="nav-item">
-                                                            <input class="mr-1" data-type="type" type="checkbox" id="@item" onclick="setFilter(this)" value="@item" name="@item" />
-                                                            <label for="@item">@item</label>
-                                                        </li>
+                                                    <li class="nav-item">
+                                                        <input class="mr-1" data-type="type" type="checkbox" id="@item" onclick="setFilter(this)" value="@item" name="@item" />
+                                                        <label for="@item">@item</label>
+                                                    </li>
                                                 }
                                             </ul>
                                         </div>

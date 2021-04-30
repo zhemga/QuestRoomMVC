@@ -26,8 +26,16 @@
     color: rgb(0, 128, 0) !important;
 }
 
-.w-35{
+.w-40{
     width: 40% !important;
+}
+
+.w-60 {
+    width: 60% !important;
+}
+
+.w-85 {
+    width: 85% !important;
 }
 
 .star03 {
@@ -73,5 +81,35 @@
 }
 
 textarea{
-    min-height: 150px !important;
+    min-height: 100px !important;
+}
+
+.rounded-right-0{
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.form-control{
+    box-shadow: none !important;
+}
+
+.browse-padding{
+    padding-top: 6.25px;
+    padding-bottom: 0px;
+}
+
+.dark-shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.75) !important;
+}
+
+#carouselExampleIndicators img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.partial-image {
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
 }

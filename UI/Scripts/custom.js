@@ -48,3 +48,90 @@ function deleteRoom(id) {
 function editRoom(id) {
     window.location = `/Rooms/Edit?id=${id}`;
 }
+
+$(function () {
+
+    $(document).on('change', '#selectImageFile', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        if (numFiles == 1) {
+            input.trigger('fileselect', label);
+        }
+        else {
+            alert("You can choose only one image at once!")
+        }
+        
+    });
+
+
+    $(document).ready(function () {
+        $('#selectImageFile').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text');
+
+            if (input.length) {
+                input.val(label);
+            } else {
+                if (log) alert(label);
+            }
+
+        });
+    });
+
+});
+
+function addUrlToList() {
+
+    var imageUrl = $("#imageUrl").val();
+
+    if (imageUrl.indexOf('http://') === 0 || imageUrl.indexOf('https://') === 0) {
+        var listOfImages = $("#listOfImages");
+
+        if (listOfImages.val() != "") {
+            listOfImages.append(",");
+        }
+
+        listOfImages.append(imageUrl);
+    }
+    else {
+        alert("Wrong URL!");
+    }
+}
+
+function addFileToList() {
+    var formdata = new FormData();
+    var fileInput = $("#selectImageFile");
+    var btn = $("#btnAddFile");
+
+    if (fileInput[0].files.length == 1) {
+        btn.prop('disabled', true);
+
+        formdata.append("img", fileInput.prop('files')[0]);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Rooms/UploadImage');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var listOfImages = $("#listOfImages");
+
+                if (listOfImages.val() != "") {
+                    listOfImages.append(',');
+                }
+
+                var respond = xhr.responseText;
+                listOfImages.append(respond.replace(/"/g, ""));
+                btn.prop('disabled', false);
+            }
+        }
+    }
+    else {
+        alert("Please, choose one file.")
+    }
+}
+
+function clearList() {
+    var listOfImages = $("#listOfImages");
+    listOfImages.val('');
+}

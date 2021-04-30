@@ -40,7 +40,8 @@ namespace UI.Utils
 
             CreateMap<RoomViewModel, QuestRoom>()
                 .ForMember(x => x.Type, s => s.MapFrom(z => new DecorationType { Name = z.DecorationType }))
-                .ForMember(x => x.ImagesUrl, s => s.MapFrom(z => string.Join(",", z.ImagesUrl)))
+                //.ForMember(x => x.ImagesUrl, s => s.MapFrom(z => string.Join(",", z.ImagesUrl)))
+                .ForMember(x => x.ImagesUrl, s => s.MapFrom(z => z.ImagesUrlForForm))
                 .ForMember(x => x.Company, s => s.MapFrom(z => new Company { Name = z.CompanyName, Phone = z.CompanyPhone }))
                 .ForMember(x => x.PassingTime, s => s.MapFrom(z => DateTime.Parse(z.PassingTime)))
                 .ForMember(x => x.DifficultyLevel, s => s.MapFrom(z => difficultyLevel.IndexOf(z.DifficultyLevel) + 1 ))
