@@ -9,6 +9,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-warning">@item.Name</h3>
                     <p class="card-text">Type: <strong>@item.DecorationType</strong></p>
+                    <p class="card-text">Company: <strong>@item.CompanyName</strong></p>
                     <p class="card-text">Price: <strong>@item.Price $ per hour</strong></p>
 
                     @for (int i = 0; i < Math.Floor(@item.Rating) + 1; i++)

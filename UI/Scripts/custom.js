@@ -42,11 +42,11 @@ function deleteRoom(id) {
     if (!confirm('Are you sure?')) {
         e.preventDefault();
     }
-    window.location = `/Rooms/Delete?id=${id}`;
+    window.location = `/Rooms/DeleteRoom?id=${id}`;
 }
 
 function editRoom(id) {
-    window.location = `/Rooms/Edit?id=${id}`;
+    window.location = `/Rooms/EditRoom?id=${id}`;
 }
 
 $(function () {
@@ -89,10 +89,10 @@ function addUrlToList() {
         var listOfImages = $("#listOfImages");
 
         if (listOfImages.val() != "") {
-            listOfImages.append(",");
+            listOfImages.val(listOfImages.val() + ",");
         }
 
-        listOfImages.append(imageUrl);
+        listOfImages.val(listOfImages.val() + imageUrl);
     }
     else {
         alert("Wrong URL!");
@@ -117,11 +117,11 @@ function addFileToList() {
                 var listOfImages = $("#listOfImages");
 
                 if (listOfImages.val() != "") {
-                    listOfImages.append(',');
+                    listOfImages.val(listOfImages.val() + ',');
                 }
 
                 var respond = xhr.responseText;
-                listOfImages.append(respond.replace(/"/g, ""));
+                listOfImages.val(listOfImages.val() + respond.replace(/"/g, ""));
                 btn.prop('disabled', false);
             }
         }
@@ -132,6 +132,5 @@ function addFileToList() {
 }
 
 function clearList() {
-    var listOfImages = $("#listOfImages");
-    listOfImages.val('');
+    $("#listOfImages").val("");
 }

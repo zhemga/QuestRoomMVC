@@ -5,6 +5,7 @@ namespace UI.Models
     public class RoomViewModel
     {
         public int Id { get; set; }
+        public int CompanyId { get; set; }
         [Required]
         [MaxLength(64)]
         public string Name { get; set; }

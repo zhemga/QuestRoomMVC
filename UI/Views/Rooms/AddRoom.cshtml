@@ -122,46 +122,42 @@
                 </div>
             </div>
 
-            <section class="bg-darkgray rounded pt-3 pb-3 m-3 w-85 mt-4">
+            <div class="form-group bg-darkgray rounded pt-3 pb-5 m-3 w-85 mt-4">
+                <p class="control-label col-md-2 text-success">Images</p>
+                <p class="control-label col-md-2 text-warning">List of images (The first image is the main):</p>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.ImagesUrlForForm, htmlAttributes: new { @id = "listOfImages", @class = "text-greenyellow p-2 w-100 bg-dark border border-warning text-light rounded", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.ImagesUrlForForm, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    <p class="control-label col-md-2 text-success">Images</p>
-                    <p class="control-label col-md-2 text-warning">List of images (The first image is the main):</p>
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.ImagesUrlForForm, htmlAttributes: new { @id = "listOfImages", @class = "text-greenyellow p-2 w-100 bg-dark border border-warning text-light rounded", disabled = "disabled" })
-                        @Html.ValidationMessageFor(model => model.ImagesUrlForForm, "", new { @class = "text-danger" })
+                    <br />
+                    <a class="btn btn-warning bg-greenyellow border-0" onclick="clearList()">Clear list</a>
 
-                        <br />
-                        <a class="btn btn-warning bg-greenyellow border-0" onclick="clearList()">Clear list</a>
-
-                        <p class="control-label col-md-2 text-warning mt-3">Enter image's URL:</p>
-                        <div class="input-group mt-2">
-                            <input id="imageUrl" type="url" class="text-greenyellow form-control bg-dark border border-warning" placeholder="Image's URL" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button id="btnAddUrl" class="btn btn-outline bg-greenyellow p-0 pl-3 pr-3" type="button" onclick="addUrlToList()">Add to list</button>
-                            </div>
+                    <p class="control-label col-md-2 text-warning mt-3">Enter image's URL:</p>
+                    <div class="input-group mt-2">
+                        <input id="imageUrl" type="url" class="text-greenyellow form-control bg-dark border border-warning" placeholder="Image's URL" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button id="btnAddUrl" class="btn btn-outline bg-greenyellow p-0 pl-3 pr-3" type="button" onclick="addUrlToList()">Add to list</button>
                         </div>
+                    </div>
 
-                        <p class="control-label col-md-2 text-warning mt-3">Or upload image:</p>
-                        <div class="input-group d-flex align-items-stretch">
-                            <label class="input-group-btn m-0">
-                                <span class="btn btn-outline bg-greenyellow border-0 rounded-left rounded-right-0 h-100 browse-padding pl-3 pr-3 align-middle">
-                                    Browse&hellip; <input id="selectImageFile" type="file" accept="image/*" style="display: none;" multiple="multiple">
-                                </span>
-                            </label>
-                            <input type="text" placeholder="No image selected" class="form-control bg-dark border border-warning text-greenyellow">
-                            <div class="input-group-append">
-                                <button id="btnAddFile" class="btn btn-outline bg-greenyellow p-0 pl-3 pr-3" type="button" onclick="addFileToList()">Add to list</button>
-                            </div>
+                    <p class="control-label col-md-2 text-warning mt-3">Or upload image:</p>
+                    <div class="input-group d-flex align-items-stretch">
+                        <label class="input-group-btn m-0">
+                            <span class="btn btn-outline bg-greenyellow border-0 rounded-left rounded-right-0 h-100 browse-padding pl-3 pr-3 align-middle">
+                                Browse&hellip; <input id="selectImageFile" type="file" accept="image/*" style="display: none;" multiple="multiple">
+                            </span>
+                        </label>
+                        <input type="text" placeholder="No image selected" class="form-control bg-dark border border-warning text-greenyellow">
+                        <div class="input-group-append">
+                            <button id="btnAddFile" class="btn btn-outline bg-greenyellow p-0 pl-3 pr-3" type="button" onclick="addFileToList()">Add to list</button>
                         </div>
                     </div>
                 </div>
-
-            </section>
+            </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-warning mt-2 mb-2" />
+                    <input type="submit" value="Create room" class="btn btn-warning mt-2 mb-3" />
                 </div>
             </div>
         </div>

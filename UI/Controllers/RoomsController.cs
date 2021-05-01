@@ -139,7 +139,29 @@ namespace UI.Controllers
             return Json("/Files/Images/" + fileName);
         }
 
-        public async Task<ActionResult> Delete(int id)
+        [HttpGet]
+        public ActionResult EditRoom(int id)
+        {
+            var foundedRoom = _mapper.Map<RoomViewModel>(_roomService.GetRoom(id));
+            ViewBag.Types = _roomService.GetTypes();
+            return View("EditRoom", foundedRoom);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditRoom(RoomViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Types = _roomService.GetTypes();
+                return View();
+            }
+
+            await _roomService.EditRoomAsync(_mapper.Map<QuestRoom>(model));
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> DeleteRoom(int id)
         {
             try
             {

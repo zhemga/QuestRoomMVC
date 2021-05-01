@@ -1,4 +1,5 @@
-﻿using GameStore.DAL.Repository.Interface;
+﻿using DAL.Entities;
+using GameStore.DAL.Repository.Interface;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -57,6 +58,7 @@ namespace GameStore.DAL.Repository
         public async Task UpdateAsync(TEntity entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
+
             await SaveAsync();
         }
     }
