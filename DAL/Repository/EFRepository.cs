@@ -21,7 +21,7 @@ namespace GameStore.DAL.Repository
 
         public async Task CreateAsync(TEntity entity)
         {
-            _set.Add(entity);
+            _dbContext.Entry(entity).State = EntityState.Added;
             await SaveAsync();
         }
 
@@ -43,7 +43,6 @@ namespace GameStore.DAL.Repository
             return _set.Find(id);
         }
 
-        // TODO: Resolve includes
         public IEnumerable<TEntity> GetAll()
         {
             var entities = _set.AsQueryable();

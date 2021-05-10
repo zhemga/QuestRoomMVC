@@ -30,6 +30,16 @@ namespace BLL.Implementation
             await _roomRepository.CreateAsync(room);
         }
 
+        public async Task AddCompanyAsync(Company company)
+        {
+            await _companyRepository.CreateAsync(company);
+        }
+
+        public async Task AddTypeAsync(DecorationType decorationType)
+        {
+            await _typeRepository.CreateAsync(decorationType);
+        }
+
         public IEnumerable<QuestRoom> GetAllQuestRooms(List<RoomsFilter> filters)
         {
             if (filters == null || filters.Count == 0)
@@ -67,17 +77,12 @@ namespace BLL.Implementation
 
         public IEnumerable<string> GetRatings()
         {
-            return new string[]{ "0", "1", "2", "3", "4", "5" };
+            return new string[] { "0", "1", "2", "3", "4", "5" };
         }
 
         public IEnumerable<string> GetTypes()
         {
             return this.GetAllTypes().Select(x => x.Name);
-        }
-
-        public QuestRoom GetRoom(int id)
-        {
-            return _roomRepository.Get(id);
         }
 
         public IEnumerable<Company> GetAllCompanies()
@@ -94,7 +99,21 @@ namespace BLL.Implementation
         {
             await _roomRepository.UpdateAsync(room);
             await _companyRepository.UpdateAsync(room.Company);
-            await _typeRepository.UpdateAsync(room.Type);
+        }
+
+        public QuestRoom GetRoom(int id)
+        {
+            return _roomRepository.Get(id);
+        }
+
+        public DecorationType GetType(int id)
+        {
+            return _typeRepository.Get(id);
+        }
+
+        public Company GetCompany(int id)
+        {
+            return _companyRepository.Get(id);
         }
     }
 }

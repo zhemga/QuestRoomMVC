@@ -38,7 +38,7 @@ namespace UI.Controllers
                 return View(rooms);
             }
 
-            return View(rooms.Where(x => x.Name.Contains(search)).ToList());
+            return View(rooms.Where(x => x.Name.ToLower().Contains(search.ToLower()) || x.CompanyName.ToLower().Contains(search.ToLower())).ToList());
         }
 
         private void SetViewBag()
@@ -57,7 +57,7 @@ namespace UI.Controllers
 
             if (type == "type")
             {
-                filter.Predicate = (x => x.Type.Name == value);
+                filter.Predicate = (x => x.DecorationType.Name == value);
             }
             else if (type == "rating")
             {
@@ -115,9 +115,21 @@ namespace UI.Controllers
                 return View();
             }
 
-            await _roomService.AddRoomAsync(_mapper.Map<QuestRoom>(model));
+            var roomToAdd = _mapper.Map<QuestRoom>(model);
 
-            return RedirectToAction("Index");
+            int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == roomToAdd.DecorationType.Name).Select(x => x.Id).FirstOrDefault();
+
+            if (validationTypeId != null)
+            {
+                roomToAdd.DecorationTypeId = int.Parse(validationTypeId.ToString());
+                roomToAdd.DecorationType = null;
+
+                await _roomService.AddRoomAsync(roomToAdd);
+
+                return RedirectToAction("Index");
+            }
+
+            return View("Error");
         }
 
         [HttpPost]
@@ -156,9 +168,21 @@ namespace UI.Controllers
                 return View();
             }
 
-            await _roomService.EditRoomAsync(_mapper.Map<QuestRoom>(model));
+            var roomToEdit = _mapper.Map<QuestRoom>(model);
 
-            return RedirectToAction("Index");
+            int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == roomToEdit.DecorationType.Name).Select(x => x.Id).FirstOrDefault();
+
+            if (validationTypeId != null)
+            {
+                roomToEdit.DecorationTypeId = int.Parse(validationTypeId.ToString());
+                roomToEdit.DecorationType = null;
+
+                await _roomService.EditRoomAsync(roomToEdit);
+
+                return RedirectToAction("Index");
+            }
+
+            return View("Error");
         }
 
         public async Task<ActionResult> DeleteRoom(int id)

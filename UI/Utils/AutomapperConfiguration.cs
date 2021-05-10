@@ -32,7 +32,7 @@ namespace UI.Utils
             CreateMap<QuestRoom, RoomViewModel>()
                 .ForMember(x => x.Id, s => s.MapFrom(z => z.Id))
                 .ForMember(x => x.CompanyId, s => s.MapFrom(z => z.Company.Id))
-                .ForMember(x => x.DecorationType, s => s.MapFrom(z => z.Type.Name))
+                .ForMember(x => x.DecorationType, s => s.MapFrom(z => z.DecorationType.Name))
                 .ForMember(x => x.ImagesUrl, s => s.MapFrom(z => z.ImagesUrl.Split(',')))
                 .ForMember(x => x.ImagesUrlForForm, s => s.MapFrom(z => z.ImagesUrl))
                 .ForMember(x => x.CompanyName, s => s.MapFrom(z => z.Company.Name))
@@ -43,7 +43,7 @@ namespace UI.Utils
 
             CreateMap<RoomViewModel, QuestRoom>()
                 .ForMember(x => x.Id, s => s.MapFrom(z => z.Id))
-                .ForMember(x => x.Type, s => s.MapFrom(z => new DecorationType { Name = z.DecorationType }))
+                .ForMember(x => x.DecorationType, s => s.MapFrom(z => new DecorationType { Name = z.DecorationType }))
                 .ForMember(x => x.ImagesUrl, s => s.MapFrom(z => z.ImagesUrlForForm))
                 .ForMember(x => x.Company, s => s.MapFrom(z => new Company { Id = z.CompanyId, Name = z.CompanyName, Phone = z.CompanyPhone }))
                 .ForMember(x => x.PassingTime, s => s.MapFrom(z => DateTime.Parse(z.PassingTime)))

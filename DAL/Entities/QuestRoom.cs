@@ -39,9 +39,11 @@ namespace DAL.Entities
         [Required]
         [Range(0,5)]
         public double Rating { get; set; }
-        [Required]
-        public virtual DecorationType Type { get; set; }
-        [Required]
+
+        public int DecorationTypeId { get; set; }
+        public virtual DecorationType DecorationType { get; set; }
+
+        public int CompanyId { get; set; }
         public virtual Company Company { get; set; }
     }
 }

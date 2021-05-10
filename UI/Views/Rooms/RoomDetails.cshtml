@@ -105,6 +105,12 @@
             <p>We are company <strong>@Model.CompanyName</strong>, our entertaiment center address is <strong>@Model.Address</strong></p>
             <h3 class="text-green">How to order?</h3>
             <p>Call <strong class="text-warning">@Model.CompanyPhone</strong> or by website.</p>
+            <a class="btn bg-greenyellow m-1 p-3 pl-5 pr-5" onclick="addOrder(@Model.Id)">Add in order list</a>
+            @{
+                <hr class="bg-dark mt-3" />
+                <a class=" btn bg-danger m-1" onclick="editRoom(@Model.Id)">Edit</a>
+                <a class="btn bg-danger m-1" onclick="deleteRoom(@Model.Id)">Delete</a>
+            }
         </div>
         <div class="d-flex flex-column w-40 h-100 m-2">
             <div class="p-3 m-2 bg-warning rounded">
