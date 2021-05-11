@@ -217,5 +217,12 @@ namespace UI.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
+        public ActionResult ControlDecorations()
+        {
+            ViewBag.Types = _roomService.GetTypes();
+            return View("ControlDecorations");
+        }
     }
 }

@@ -285,6 +285,7 @@
     <Content Include="Views\Rooms\AddRoom.cshtml" />
     <Content Include="Views\Rooms\Error.cshtml" />
     <Content Include="Views\Rooms\EditRoom.cshtml" />
+    <Content Include="Views\Rooms\ControlDecorations.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

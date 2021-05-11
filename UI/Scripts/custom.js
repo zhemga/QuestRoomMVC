@@ -33,10 +33,6 @@ function addRoom() {
     window.location = `/Rooms/AddRoom`;
 }
 
-function addOrder(id) {
-    window.location = `/Rooms/AddOrder?id=${id}`;
-}
-
 function deleteRoom(id) {
 
     if (!confirm('Are you sure?')) {
@@ -133,4 +129,30 @@ function addFileToList() {
 
 function clearList() {
     $("#listOfImages").val("");
+}
+
+function controlDecorations() {
+    window.location = `/Rooms/ControlDecorations`;
+}
+
+function addOrder(id) {
+    this.disabled = true;
+
+    var orders = JSON.parse(localStorage.getItem("orders"));
+
+    if (orders == null) {
+        orders = [];
+        localStorage.setItem("orders", JSON.stringify(orders));
+    }
+
+    if (orders.indexOf(id) < 0) {
+        orders.push(id);
+        localStorage.setItem("orders", JSON.stringify(orders));
+        alert("Order was added successfully!");
+    }
+    else
+        alert("This order has already added!");
+    
+
+    this.disabled = false;
 }
