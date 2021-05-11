@@ -45,6 +45,7 @@ namespace UI.Controllers
         {
             ViewBag.Types = _roomService.GetTypes();
             ViewBag.Ratings = _roomService.GetRatings();
+            ViewBag.Companies = _roomService.GetCompanies();
         }
 
         public ActionResult Filter(string type, string value)
@@ -62,6 +63,10 @@ namespace UI.Controllers
             else if (type == "rating")
             {
                 filter.Predicate = (x => Math.Floor(x.Rating).ToString() == value);
+            }
+            else if (type == "company")
+            {
+                filter.Predicate = (x => x.Company.Name == value);
             }
 
             var filters = new List<RoomsFilter>();
@@ -95,14 +100,18 @@ namespace UI.Controllers
 
         public ActionResult Room(int id)
         {
-            var foundedRoom = _mapper.Map<RoomViewModel>(_roomService.GetRoom(id));
-            return View("RoomDetails", foundedRoom);
+            var foundedRoom = _roomService.GetRoom(id);
+            ViewBag.Phone = foundedRoom.Company.Phone;
+            var mappedRoom = _mapper.Map<RoomViewModel>(foundedRoom);
+
+            return View("RoomDetails", mappedRoom);
         }
 
         [HttpGet]
         public ActionResult AddRoom()
         {
             ViewBag.Types = _roomService.GetTypes();
+            ViewBag.Companies = _roomService.GetCompanies();
             return View();
         }
 
@@ -112,17 +121,22 @@ namespace UI.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Types = _roomService.GetTypes();
+                ViewBag.Companies = _roomService.GetCompanies();
                 return View();
             }
 
             var roomToAdd = _mapper.Map<QuestRoom>(model);
 
             int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == roomToAdd.DecorationType.Name).Select(x => x.Id).FirstOrDefault();
+            int? validationCompanyId = _roomService.GetAllCompanies().Where(x => x.Name == roomToAdd.Company.Name).Select(x => x.Id).FirstOrDefault();
 
-            if (validationTypeId != null)
+            if (validationTypeId != null && validationCompanyId != null)
             {
                 roomToAdd.DecorationTypeId = int.Parse(validationTypeId.ToString());
                 roomToAdd.DecorationType = null;
+
+                roomToAdd.CompanyId = int.Parse(validationCompanyId.ToString());
+                roomToAdd.Company = null;
 
                 await _roomService.AddRoomAsync(roomToAdd);
 
@@ -156,6 +170,7 @@ namespace UI.Controllers
         {
             var foundedRoom = _mapper.Map<RoomViewModel>(_roomService.GetRoom(id));
             ViewBag.Types = _roomService.GetTypes();
+            ViewBag.Companies = _roomService.GetCompanies();
             return View("EditRoom", foundedRoom);
         }
 
@@ -165,17 +180,22 @@ namespace UI.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Types = _roomService.GetTypes();
+                ViewBag.Companies = _roomService.GetCompanies();
                 return View();
             }
 
             var roomToEdit = _mapper.Map<QuestRoom>(model);
 
             int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == roomToEdit.DecorationType.Name).Select(x => x.Id).FirstOrDefault();
+            int? validationCompanyId = _roomService.GetAllCompanies().Where(x => x.Name == roomToEdit.Company.Name).Select(x => x.Id).FirstOrDefault();
 
-            if (validationTypeId != null)
+            if (validationTypeId != null && validationCompanyId != null)
             {
                 roomToEdit.DecorationTypeId = int.Parse(validationTypeId.ToString());
                 roomToEdit.DecorationType = null;
+
+                roomToEdit.CompanyId = int.Parse(validationCompanyId.ToString());
+                roomToEdit.Company = null;
 
                 await _roomService.EditRoomAsync(roomToEdit);
 

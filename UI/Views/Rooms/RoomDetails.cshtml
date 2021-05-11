@@ -104,7 +104,7 @@
             <h3 class="text-green">Who are we?</h3>
             <p>We are company <strong>@Model.CompanyName</strong>, our entertaiment center address is <strong>@Model.Address</strong></p>
             <h3 class="text-green">How to order?</h3>
-            <p>Call <strong class="text-warning">@Model.CompanyPhone</strong> or by website.</p>
+            <p>Call <strong class="text-warning">@ViewBag.Phone</strong> or by website.</p>
             <a class="btn bg-greenyellow m-1 p-3 pl-5 pr-5" onclick="addOrder(@Model.Id)">Add in order list</a>
             @{
                 <hr class="bg-dark mt-3" />

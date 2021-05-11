@@ -24,13 +24,6 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Company's ID (Readonly)</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CompanyId, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @readonly = "readonly" } })
-                </div>
-            </div>
-
-            <div class="form-group">
                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" } })
@@ -95,19 +88,10 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Company Name</label>
+                <label class="control-label col-md-2 text-success">Company</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" } })
+                    @Html.DropDownListFor(model => model.CompanyName, new SelectList(ViewBag.Companies), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-2 text-success">Company Phone</label>
-                <p class="text-warning">Pattern: (000) 000-0000</p>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CompanyPhone, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" }, @type = "tel", @pattern = "([0-9]{3}) [0-9]{3}-[0-9]{4}" })
-                    @Html.ValidationMessageFor(model => model.CompanyPhone, "", new { @class = "text-danger" })
                 </div>
             </div>
 

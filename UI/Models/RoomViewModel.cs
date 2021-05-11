@@ -5,7 +5,6 @@ namespace UI.Models
     public class RoomViewModel
     {
         public int Id { get; set; }
-        public int CompanyId { get; set; }
         [Required]
         [MaxLength(64)]
         public string Name { get; set; }
@@ -30,10 +29,6 @@ namespace UI.Models
         [Required]
         [MaxLength(256)]
         public string CompanyName { get; set; }
-        [Required]
-        [MaxLength(128)]
-        [CustomPhone]
-        public string CompanyPhone { get; set; }
         [Required]
         [Range(1, 9999)]
         public int Price { get; set; }

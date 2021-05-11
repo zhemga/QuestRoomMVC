@@ -98,7 +98,6 @@ namespace BLL.Implementation
         public async Task EditRoomAsync(QuestRoom room)
         {
             await _roomRepository.UpdateAsync(room);
-            await _companyRepository.UpdateAsync(room.Company);
         }
 
         public QuestRoom GetRoom(int id)
@@ -114,6 +113,11 @@ namespace BLL.Implementation
         public Company GetCompany(int id)
         {
             return _companyRepository.Get(id);
+        }
+
+        public IEnumerable<string> GetCompanies()
+        {
+            return this.GetAllCompanies().Select(x => x.Name);
         }
     }
 }
