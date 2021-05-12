@@ -47,6 +47,20 @@ namespace UI.Utils
                 .ForMember(x => x.PassingTime, s => s.MapFrom(z => DateTime.Parse(z.PassingTime)))
                 .ForMember(x => x.DifficultyLevel, s => s.MapFrom(z => difficultyLevel.IndexOf(z.DifficultyLevel) + 1 ))
                 .ForMember(x => x.HorrorLevel, s => s.MapFrom(z => horrorLevel.IndexOf(z.HorrorLevel) + 1 ));
+
+            CreateMap<DecorationType, DecorationTypeViewModel>()
+                .ForMember(x => x.Name, s => s.MapFrom(z => z.Name));
+
+            CreateMap<DecorationTypeViewModel, DecorationType>()
+                .ForMember(x => x.Name, s => s.MapFrom(z => z.Name));
+
+            CreateMap<Company, CompanyViewModel>()
+               .ForMember(x => x.Name, s => s.MapFrom(z => z.Name))
+               .ForMember(x => x.Phone, s => s.MapFrom(z => z.Phone));
+
+            CreateMap<CompanyViewModel, Company>()
+               .ForMember(x => x.Name, s => s.MapFrom(z => z.Name))
+               .ForMember(x => x.Phone, s => s.MapFrom(z => z.Phone));
         }
     }
 }

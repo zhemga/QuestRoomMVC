@@ -1,4 +1,6 @@
-﻿function onSearch(e) {
+﻿window.onload = loadCart();
+
+function onSearch(e) {
     if (e.key === "Enter") {
         location.href = `/Rooms/Index?search=${e.target.value}`;
     }
@@ -135,6 +137,10 @@ function controlDecorations() {
     window.location = `/Rooms/ControlDecorations`;
 }
 
+function controlCompanies() {
+    window.location = `/Rooms/ControlCompanies`;
+}
+
 function addOrder(id) {
     this.disabled = true;
 
@@ -148,6 +154,7 @@ function addOrder(id) {
     if (orders.indexOf(id) < 0) {
         orders.push(id);
         localStorage.setItem("orders", JSON.stringify(orders));
+        loadCart();
         alert("Order was added successfully!");
     }
     else
@@ -155,4 +162,23 @@ function addOrder(id) {
     
 
     this.disabled = false;
+}
+
+function loadCart() {
+    var amountOfOrdersSpan = $("#amountOfOrders");
+
+    var orders = JSON.parse(localStorage.getItem("orders"));
+    if (orders == null)
+        amountOfOrdersSpan.html(0);
+    else
+        amountOfOrdersSpan.html(orders.length);
+}
+
+function openCart() {
+    var orders = JSON.parse(localStorage.getItem("orders"));
+    if (orders == null)
+        alert("Cart is empty!");
+    else {
+        window.location = `/Rooms/OpenCart?data=${JSON.stringify(orders)}`;
+    }
 }

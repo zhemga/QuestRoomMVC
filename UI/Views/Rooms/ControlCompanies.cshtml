@@ -1,18 +1,18 @@
-﻿@model UI.Models.DecorationTypeViewModel
+﻿@model UI.Models.CompanyViewModel
 @{
-    ViewBag.Title = "Control Decorations";
+    ViewBag.Title = "Control Companies";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
 <center>
-    <h2 class="mt-5 text-warning">Control Decorations</h2>
+    <h2 class="mt-5 text-warning">Control Companies</h2>
 
-    @using (Html.BeginForm("AddDecoration", "Rooms", FormMethod.Post))
+    @using (Html.BeginForm("AddCompany", "Rooms", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal bg-darkgray rounded p-3 w-85">
-            <h3 class="text-green">Add Decoration Type</h3>
+            <h3 class="text-green">Add Company</h3>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
@@ -23,38 +23,43 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
+                <p class="text-warning">Pattern: (000) 000-0000</p>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" }, @type = "tel", @pattern = "([0-9]{3}) [0-9]{3}-[0-9]{4}" })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create Decoration" class="btn btn-warning mt-2" />
+                    <input type="submit" value="Create Company" class="btn btn-warning mt-2" />
                 </div>
             </div>
         </div>
-
-
     }
 
-    @using (Html.BeginForm("DeleteDecoration", "Rooms", FormMethod.Post))
+    @using (Html.BeginForm("DeleteCompany", "Rooms", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal bg-darkgray rounded p-3 w-85 mt-5">
-            <h3 class="text-green">Delete Decoration Type</h3>
+            <h3 class="text-green">Delete Company</h3>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Name, new SelectList(ViewBag.Types), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
+                    @Html.DropDownListFor(model => model.Name, new SelectList(ViewBag.Companies), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Delete Decoration" class="btn btn-warning mt-2" />
+                    <input type="submit" value="Delete Company" class="btn btn-warning mt-2" />
                 </div>
             </div>
         </div>
     }
 
 </center>
-
-
 

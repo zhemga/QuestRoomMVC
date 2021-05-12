@@ -95,6 +95,16 @@ namespace BLL.Implementation
             await _roomRepository.DeleteAsync(id);
         }
 
+        public async Task DeleteCompanyAsync(int id)
+        {
+            await _companyRepository.DeleteAsync(id);
+        }
+
+        public async Task DeleteTypeAsync(int id)
+        {
+            await _typeRepository.DeleteAsync(id);
+        }
+
         public async Task EditRoomAsync(QuestRoom room)
         {
             await _roomRepository.UpdateAsync(room);

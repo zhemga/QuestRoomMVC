@@ -1,0 +1,16 @@
+﻿@model List<UI.Models.RoomViewModel>
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<center>
+    <h2 class="mt-5 text-warning"><i class="fas fa-shopping-cart"></i> Cart</h2>
+
+    @{ Html.RenderPartial("CartPartial", Model); }
+</center>
+
+
+
+

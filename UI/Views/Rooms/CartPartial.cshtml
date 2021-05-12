@@ -1,0 +1,13 @@
+﻿@model List<UI.Models.RoomViewModel>
+
+@{
+    ViewBag.Title = "CartPartial";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    <div class="bg-darkgray border border-warning w-85 p-3">
+        <p>@item.Name @item.CompanyName @item.Price</p>
+    </div>
+}

@@ -100,9 +100,9 @@ namespace UI.Controllers
 
         public ActionResult Room(int id)
         {
-            var foundedRoom = _roomService.GetRoom(id);
-            ViewBag.Phone = foundedRoom.Company.Phone;
-            var mappedRoom = _mapper.Map<RoomViewModel>(foundedRoom);
+            var foundRoom = _roomService.GetRoom(id);
+            ViewBag.Phone = foundRoom.Company.Phone;
+            var mappedRoom = _mapper.Map<RoomViewModel>(foundRoom);
 
             return View("RoomDetails", mappedRoom);
         }
@@ -168,10 +168,10 @@ namespace UI.Controllers
         [HttpGet]
         public ActionResult EditRoom(int id)
         {
-            var foundedRoom = _mapper.Map<RoomViewModel>(_roomService.GetRoom(id));
+            var foundRoom = _mapper.Map<RoomViewModel>(_roomService.GetRoom(id));
             ViewBag.Types = _roomService.GetTypes();
             ViewBag.Companies = _roomService.GetCompanies();
-            return View("EditRoom", foundedRoom);
+            return View("EditRoom", foundRoom);
         }
 
         [HttpPost]
@@ -223,6 +223,88 @@ namespace UI.Controllers
         {
             ViewBag.Types = _roomService.GetTypes();
             return View("ControlDecorations");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddDecoration(DecorationTypeViewModel decoration)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Types = _roomService.GetTypes();
+                return View("ControlDecorations");
+            }
+
+            await _roomService.AddTypeAsync(_mapper.Map<DecorationType>(decoration));
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDecoration(DecorationTypeViewModel decoration)
+        {
+            int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == decoration.Name).Select(x => x.Id).FirstOrDefault();
+            if (validationTypeId != null)
+            {
+                await _roomService.DeleteTypeAsync(int.Parse(validationTypeId.ToString()));
+                return RedirectToAction("Index");
+            }
+            else
+                return View("Error");
+        }
+
+        [HttpGet]
+        public ActionResult ControlCompanies()
+        {
+            ViewBag.Companies = _roomService.GetCompanies();
+            return View("ControlCompanies");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddCompany(CompanyViewModel company)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Companies = _roomService.GetCompanies();
+                return View("ControlCompanies");
+            }
+
+            await _roomService.AddCompanyAsync(_mapper.Map<Company>(company));
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteCompany(CompanyViewModel company)
+        {
+            int? validationTypeId = _roomService.GetAllCompanies().Where(x => x.Name == company.Name).Select(x => x.Id).FirstOrDefault();
+            if (validationTypeId != null)
+            {
+                await _roomService.DeleteCompanyAsync(int.Parse(validationTypeId.ToString()));
+                return RedirectToAction("Index");
+            }
+            else
+                return View("Error");
+        }
+
+        public ActionResult OpenCart(string data)
+        {
+            if (data != null)
+            {
+                var orders = data.Replace("[", "").Replace("]", "").Split(',').ToList();
+
+                var foundRooms = _roomService.GetAllQuestRooms(null).Where(x =>
+                {
+                    foreach (var item in orders)
+                    {
+                        if (x.Id.ToString() == item)
+                            return true;
+                    }
+                    return false;
+                });
+
+                var rooms = _mapper.Map<List<RoomViewModel>>(foundRooms);
+
+                return View("Cart", rooms);
+            }
+            return View("Error");
         }
     }
 }
