@@ -59,7 +59,7 @@ $(function () {
         else {
             alert("You can choose only one image at once!")
         }
-        
+
     });
 
 
@@ -159,7 +159,7 @@ function addOrder(id) {
     }
     else
         alert("This order has already added!");
-    
+
 
     this.disabled = false;
 }
@@ -180,5 +180,28 @@ function openCart() {
         alert("Cart is empty!");
     else {
         window.location = `/Rooms/OpenCart?data=${JSON.stringify(orders)}`;
+    }
+}
+
+function incrementValue(id) {
+    const maxNumberOfHours = 24;
+    var input = $("#" + id);
+    var currentValue = input.val();
+
+    if (!isNaN(currentValue) && currentValue < maxNumberOfHours) {
+        input.val(parseInt(currentValue) + 1);
+    } else {
+        input.val(1);
+    }
+}
+
+function decrementValue(id) {
+    var input = $("#" + id);
+    var currentValue = input.val();
+
+    if (!isNaN(currentValue) && currentValue > 1) {
+        input.val(parseInt(currentValue) - 1);
+    } else {
+        input.val(1);
     }
 }

@@ -1,13 +1,24 @@
 ﻿@model List<UI.Models.RoomViewModel>
 
 @{
-    ViewBag.Title = "CartPartial";
+    ViewBag.Title = "Cart";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
 @foreach (var item in Model)
 {
-    <div class="bg-darkgray border border-warning w-85 p-3">
-        <p>@item.Name @item.CompanyName @item.Price</p>
+    <div class="d-flex row border bg-darkgray align-items-center border-warning w-85 p-3">
+        <img class="h-100px w-150px ob-fit-cover" src="@item.ImagesUrl[0]" />
+        <div class="w-25 ml-2">
+            <span class="text-warning h4">@item.Name </span>
+        </div>
+        <span>Amount of hours:</span>
+        <div class="d-flex justify-content-center flex-nowrap">
+            <input type="button" value="-" class="btn btn-warning rounded-right-0" data-field="quantity" onclick="decrementValue(@item.Id)">
+            <input id="@item.Id" type="number" min="1" step="1" max="24" value="1" readonly="readonly" name="quantity" class="h-41px quantity-field pl-3 pr-1 text-center">
+            <input type="button" value="+" class="btn btn-warning rounded-left-0" data-field="quantity" onclick="incrementValue(@item.Id)">
+        </div>
+        <span class="text-warning ml-auto">@item.Price $ per hour</span>
+        <a class="btn bg-greenyellow ml-auto" onclick="deleteOrder(@item.Id)">Delete Order</a>
     </div>
 }
