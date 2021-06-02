@@ -5,13 +5,20 @@
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-    <center>
-        <h2 class="mt-5 mb-0 text-warning"><i class="fas fa-shopping-cart"></i> Cart</h2>
+<center>
+    <h2 class="mt-5 mb-0 text-warning"><i class="fas fa-shopping-cart"></i> Cart</h2>
+    <div class="d-flex flex-row mb-5 w-85 mt-4">
+        <div class="container-fluid mr-2">
+            @{ Html.RenderPartial("CartPartial", Model); }
+        </div>
+        <div class="ml-2 w-25 bg-darkgray border border-warning h-50 p-3">
+            <h3 class="text-warning">Your order:</h3>
+            <p>Total amount of orders: <span class="text-warning">@Model.Count</span></p>
+            <p>Total price: <span class="text-warning"><span id="totalPrice">0</span> $</span></p>
+            @{
+                <button class="btn bg-greenyellow" onclick="notRegisteredOrder()">Continue to make order</button>
+            }
+        </div>
+    </div>
 
-        @{ Html.RenderPartial("CartPartial", Model); }
-    </center>
-
-
-
-
-
+</center>

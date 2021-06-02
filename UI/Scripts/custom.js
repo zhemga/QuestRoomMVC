@@ -1,4 +1,24 @@
-﻿window.onload = loadCart();
+﻿$(document).ready(function () {
+    loadCart();
+
+    if (window.location.href.indexOf(`/Rooms/Cart?data=`) > -1) {
+        var orders = JSON.parse(localStorage.getItem("orders"));
+        if (orders != null && orders.length > 0) {
+            var orderContainer = [];
+            orders.forEach(item => {
+                orderContainer.push({ "roomId": item, "count": 1 });
+            });
+
+            localStorage.setItem("orderContainer", JSON.stringify(orderContainer));
+        }
+    }
+
+    if (window.location.href.indexOf(`/Rooms/NotRegisteredOrder`) > -1) {
+
+    }
+
+    sumUpAllPrices();
+});
 
 function onSearch(e) {
     if (e.key === "Enter") {
@@ -164,6 +184,44 @@ function addOrder(id) {
     this.disabled = false;
 }
 
+function deleteOrder(id) {
+    this.disabled = true;
+
+    var orders = JSON.parse(localStorage.getItem("orders"));
+
+    if (orders != null) {
+
+        if (orders.indexOf(id) > -1) {
+            console.log(id);
+            console.log(orders);
+            orders = removeItemOnce(orders, id);
+            console.log(orders);
+            localStorage.setItem("orders", JSON.stringify(orders));
+            loadCart();
+
+            if (orders.length > 0)
+                openCart();
+            else
+                index();
+        }
+        else
+            alert("This order doesn't exist!");
+    }
+    else {
+        alert("Your localstorage is empty. Error!");
+    }
+
+    this.disabled = false;
+}
+
+function removeItemOnce(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+        arr.splice(index, 1);
+    }
+    return arr;
+}
+
 function loadCart() {
     var amountOfOrdersSpan = $("#amountOfOrders");
 
@@ -176,16 +234,17 @@ function loadCart() {
 
 function openCart() {
     var orders = JSON.parse(localStorage.getItem("orders"));
-    if (orders == null)
+    if (orders == null || orders.length < 1)
         alert("Cart is empty!");
     else {
-        window.location = `/Rooms/OpenCart?data=${JSON.stringify(orders)}`;
+        window.location = `/Rooms/Cart?data=${JSON.stringify(orders)}`;
     }
 }
 
-function incrementValue(id) {
+function incrementValue(id, price) {
     const maxNumberOfHours = 24;
     var input = $("#" + id);
+    var span = $("#span_" + id);
     var currentValue = input.val();
 
     if (!isNaN(currentValue) && currentValue < maxNumberOfHours) {
@@ -193,10 +252,14 @@ function incrementValue(id) {
     } else {
         input.val(1);
     }
+    span.html(input.val() * price);
+    changeCountById(id, input.val());
+    sumUpAllPrices();
 }
 
-function decrementValue(id) {
+function decrementValue(id, price) {
     var input = $("#" + id);
+    var span = $("#span_" + id);
     var currentValue = input.val();
 
     if (!isNaN(currentValue) && currentValue > 1) {
@@ -204,4 +267,35 @@ function decrementValue(id) {
     } else {
         input.val(1);
     }
+
+    span.html(input.val() * price);
+    changeCountById(id, input.val());
+    sumUpAllPrices();
+}
+
+function changeCountById(id, count) {
+    var orderContainer = JSON.parse(localStorage.getItem("orderContainer"));
+    var index = orderContainer.findIndex(x => x.roomId == id);
+
+    if (orderContainer != null && orderContainer.length > 0 && id > -1 && count > 0) {
+        orderContainer[index] = { "roomId": id, "count": count };
+        localStorage.setItem("orderContainer", JSON.stringify(orderContainer));
+    }
+    else {
+        alert("Local Storage error!");
+    }
+}
+
+function sumUpAllPrices() {
+    var totalPriceSpan = $("#totalPrice");
+    var orders = JSON.parse(localStorage.getItem("orders"));
+    var total = 0;
+
+    orders.forEach(item => total += parseInt($("#span_" + item).html()));
+
+    totalPriceSpan.html(total);
+}
+
+function notRegisteredOrder() {
+    window.location = `/Rooms/NotRegisteredOrder`;
 }

@@ -284,7 +284,7 @@ namespace UI.Controllers
                 return View("Error");
         }
 
-        public ActionResult OpenCart(string data)
+        public ActionResult Cart(string data)
         {
             if (data != null)
             {
@@ -305,6 +305,11 @@ namespace UI.Controllers
                 return View("Cart", rooms);
             }
             return View("Error");
+        }
+
+        public ActionResult NotRegisteredOrder()
+        {
+            return View("NotRegisteredOrder");
         }
     }
 }

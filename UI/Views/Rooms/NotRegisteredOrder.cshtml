@@ -1,0 +1,38 @@
+﻿@model UI.Models.NotRegisteredOrder
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="d-flex h-75vh align-items-center justify-content-center w-100">
+
+        <div class="form-horizontal rounded bg-darkgray p-4 w-50">
+            <center>
+                <h2 class="text-warning mt-3">Confirming</h2>
+
+                <p>Unfortunately, you are not registered user. But you can leave your phone number to make order. Our managers will call you soon!</p>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
+                    <p class="text-warning">Pattern: (000) 000-0000</p>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" }, @type = "tel", @pattern = "([0-9]{3}) [0-9]{3}-[0-9]{4}" })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.OrdersStringJSON, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="d-none">
+                    @Html.EditorFor(model => model.OrdersStringJSON, new { htmlAttributes = new { @id = "dataString", @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Confirm Order" class="btn bg-greenyellow mt-2" />
+                    </div>
+                </div>
+            </center>
+        </div>
+
+    </div>
+}

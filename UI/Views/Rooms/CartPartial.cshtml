@@ -1,24 +1,22 @@
 ﻿@model List<UI.Models.RoomViewModel>
 
-@{
-    ViewBag.Title = "Cart";
-    Layout = "~/Views/Shared/_LayoutPage.cshtml";
-}
-
 @foreach (var item in Model)
 {
-    <div class="d-flex row border bg-darkgray align-items-center border-warning w-85 p-3">
+    <div class="d-flex flex-sm-column flex-xl-row border bg-darkgray align-items-center border-warning p-3">
         <img class="h-100px w-150px ob-fit-cover" src="@item.ImagesUrl[0]" />
-        <div class="w-25 ml-2">
+        <div>
+            <span class="text-warning ml-xl-5 h5">Id: @item.Id</span>
+        </div>
+        <div class="w-20 ml-xl-2">
             <span class="text-warning h4">@item.Name </span>
         </div>
-        <span>Amount of hours:</span>
-        <div class="d-flex justify-content-center flex-nowrap">
-            <input type="button" value="-" class="btn btn-warning rounded-right-0" data-field="quantity" onclick="decrementValue(@item.Id)">
-            <input id="@item.Id" type="number" min="1" step="1" max="24" value="1" readonly="readonly" name="quantity" class="h-41px quantity-field pl-3 pr-1 text-center">
-            <input type="button" value="+" class="btn btn-warning rounded-left-0" data-field="quantity" onclick="incrementValue(@item.Id)">
+        <span class="mr-xl-4 text-warning">Amount of hours:</span>
+        <div class="d-flex justify-content-center flex-nowrap m-sm-1">
+            <input type="button" value="-" class="btn btn-warning rounded-right-0" data-field="quantity" onclick="decrementValue(@item.Id, @item.Price)">
+            <input id="@item.Id" type="number" min="1" step="1" max="24" value="1" readonly="readonly" name="quantity" class="h-41px quantity-field pl-3 pr-1 text-center bg-dark border-warning border-solid text-warning">
+            <input type="button" value="+" class="btn btn-warning rounded-left-0" data-field="quantity" onclick="incrementValue(@item.Id, @item.Price)">
         </div>
-        <span class="text-warning ml-auto">@item.Price $ per hour</span>
-        <a class="btn bg-greenyellow ml-auto" onclick="deleteOrder(@item.Id)">Delete Order</a>
+        <span class="text-warning ml-xl-auto">Price: <span id="span_@item.Id">@item.Price</span> $</span>
+        <a class="btn bg-greenyellow ml-xl-auto m-sm-1" onclick="deleteOrder(@item.Id)">Delete Order</a>
     </div>
 }
