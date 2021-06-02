@@ -316,3 +316,17 @@ function signIn() {
 function signUp() {
     window.location = `/Rooms/SignUp`;
 }
+
+function deleteUser(id) {
+    if (confirm("Do yo really want to delete user?")) {
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData();
+        fd.append("id", id);
+        xhr.open("POST", "/Rooms/DeleteUser");
+        xhr.send(fd);
+    }
+}
+
+function editUser(id) {
+
+}

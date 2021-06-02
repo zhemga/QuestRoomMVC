@@ -32,16 +32,11 @@
                     <td>@user.Email</td>
                     <td>@user.Phone</td>
                     <td>
-                        @using (Html.BeginForm("Delete", "Room", new { id = user.Id }, FormMethod.Post))
-                        {
-                            @Html.ActionLink("Изменить", "Edit", new { id = user.Id },
-                                new { @class = "btn btn-primary btn-xs", style = "float: left; margin-right: 10px" })
-                            <button class="btn btn-danger btn-xs" type="submit">Удалить</button>
-                        }
+                        <button class="btn btn-danger btn-xs" onclick="editUser('@user.Id')">Edit</button>
+                        <button class="btn btn-danger btn-xs" onclick="deleteUser('@user.Id')">Delete</button>
                     </td>
                 </tr>
             }
         }
     </table>
 </div>
-@Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })

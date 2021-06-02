@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using UI.Implementation;
 using UI.Models;
@@ -323,7 +324,7 @@ namespace UI.Controllers
             return View("NotRegisteredOrder");
         }
 
-        public ActionResult Admin()
+        public ActionResult AdminPanel()
         {
             var users = _mapper.Map<List<UserViewModel>>(UserManager.Users.ToArray());
             return View("AdminPanel", users);
@@ -356,7 +357,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> DeleteUser(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
 
@@ -365,7 +366,7 @@ namespace UI.Controllers
                 IdentityResult result = await UserManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("AdminPanel");
                 }
                 else
                 {
@@ -381,7 +382,7 @@ namespace UI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Edit(string id)
+        public async Task<ActionResult> EditUser(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
             if (user != null)
@@ -395,7 +396,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(string id, string email, string password)
+        public async Task<ActionResult> EditUser(string id, string email, string password)
         {
             var user = await UserManager.FindByIdAsync(id);
             if (user != null)

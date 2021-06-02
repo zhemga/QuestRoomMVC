@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm("SignUp", "Rooms", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken();
 
     <div class="form-horizontal">
         <h4>UserViewModel</h4>

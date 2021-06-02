@@ -35,13 +35,17 @@
                             <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="signUp()">Sign Up</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn bg-danger m-2 mb-0 mr-4" onclick="addRoom()">Add Questroom</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn bg-danger m-2 mb-0 mr-4" onclick="controlDecorations()">Control Decorations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn bg-danger m-2 mb-0 mr-4" onclick="controlCompanies()">Control Companies</a>
+                            <div class="dropdown  m-2 mb-0 mr-4">
+                                <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin Features
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/Rooms/AdminPanel">Admin Panel</a>
+                                    <a class="dropdown-item" onclick="addRoom()">Add Questroom</a>
+                                    <a class="dropdown-item" onclick="controlDecorations()">Control Decorations</a>
+                                    <a class="dropdown-item" onclick="controlCompanies()">Control Companies</a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
