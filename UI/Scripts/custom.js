@@ -14,7 +14,16 @@
     }
 
     if (window.location.href.indexOf(`/Rooms/NotRegisteredOrder`) > -1) {
+        var orderContainer = JSON.parse(localStorage.getItem("orderContainer"));
+        var dataString = $("#dataString");
 
+        if (orderContainer != null && dataString != null && orderContainer.length > 0) {
+            dataString.val(JSON.stringify(orderContainer));
+        }
+        else {
+            alert("Local Storage error!");
+            index();
+        }
     }
 
     sumUpAllPrices();
@@ -298,4 +307,12 @@ function sumUpAllPrices() {
 
 function notRegisteredOrder() {
     window.location = `/Rooms/NotRegisteredOrder`;
+}
+
+function signIn() {
+    window.location = `/Rooms/SignIn`;
+}
+
+function signUp() {
+    window.location = `/Rooms/SignUp`;
 }

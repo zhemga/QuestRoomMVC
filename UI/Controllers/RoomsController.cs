@@ -2,6 +2,8 @@
 using BLL.Filter;
 using BLL.Interfaces;
 using DAL.Entities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using UI.Implementation;
 using UI.Models;
 
 namespace UI.Controllers
@@ -17,6 +20,14 @@ namespace UI.Controllers
     {
         private readonly IRoomService _roomService;
         private readonly IMapper _mapper;
+
+        private AppUserManager UserManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+        }
 
         public RoomsController(IRoomService roomService, IMapper mapper)
         {
@@ -310,6 +321,133 @@ namespace UI.Controllers
         public ActionResult NotRegisteredOrder()
         {
             return View("NotRegisteredOrder");
+        }
+
+        public ActionResult Admin()
+        {
+            var users = _mapper.Map<List<UserViewModel>>(UserManager.Users.ToArray());
+            return View("AdminPanel", users);
+        }
+
+        [HttpGet]
+        public ActionResult SignUp()
+        {
+            return View("SignUp");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SignUp(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User { UserName = model.Name, Email = model.Email, PhoneNumber = model.Phone };
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                IdentityResult result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //return View("Error", result.Errors);
+                    return View("Error");
+                }
+            }
+            else
+            {
+                //return View("Error", new string[] { "Пользователь не найден" });
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(string id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return View(user);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(string id, string email, string password)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                user.Email = email;
+                IdentityResult validEmail
+                    = await UserManager.UserValidator.ValidateAsync(user);
+
+                if (!validEmail.Succeeded)
+                {
+                    //AddErrorsFromResult(validEmail);
+                    return View("Error");
+                }
+
+                IdentityResult validPass = null;
+                if (password != string.Empty)
+                {
+                    validPass
+                        = await UserManager.PasswordValidator.ValidateAsync(password);
+
+                    if (validPass.Succeeded)
+                    {
+                        user.PasswordHash =
+                            UserManager.PasswordHasher.HashPassword(password);
+                    }
+                    else
+                    {
+                        //AddErrorsFromResult(validPass);
+                        return View("Error");
+                    }
+                }
+
+                if ((validEmail.Succeeded && validPass == null) ||
+                        (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
+                {
+                    IdentityResult result = await UserManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        //AddErrorsFromResult(result);
+                        return View("Error");
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Пользователь не найден");
+            }
+            return View(user);
         }
     }
 }

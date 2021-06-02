@@ -1,6 +1,6 @@
 ﻿@model UI.Models.NotRegisteredOrder
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("NotRegisteredOrder", "Rooms", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="d-none">
-                    @Html.EditorFor(model => model.OrdersStringJSON, new { htmlAttributes = new { @id = "dataString", @class = "form-control" } })
+                    @Html.EditorFor(model => model.OrdersStringJSON, new { htmlAttributes = new { @id = "dataString", @disabled = "disabled", @class = "form-control" } })
                 </div>
 
                 <div class="form-group">

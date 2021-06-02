@@ -1,0 +1,47 @@
+﻿@model IEnumerable<UI.Models.UserViewModel>
+
+@{
+    ViewBag.Title = "ASP.NET Identity";
+}
+
+<div class="panel panel-primary mt-5 text-warning">
+    <div class="panel-heading">
+        Users
+    </div>
+    <table class="table table-striped text-warning">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Options</th>
+        </tr>
+        @if (Model == null)
+        {
+            <tr>
+                <td colspan="3" class="text-center">No users!</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.Phone</td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Room", new { id = user.Id }, FormMethod.Post))
+                        {
+                            @Html.ActionLink("Изменить", "Edit", new { id = user.Id },
+                                new { @class = "btn btn-primary btn-xs", style = "float: left; margin-right: 10px" })
+                            <button class="btn btn-danger btn-xs" type="submit">Удалить</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+@Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })

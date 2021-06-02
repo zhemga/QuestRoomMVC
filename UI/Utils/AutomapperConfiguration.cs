@@ -61,6 +61,16 @@ namespace UI.Utils
             CreateMap<CompanyViewModel, Company>()
                .ForMember(x => x.Name, s => s.MapFrom(z => z.Name))
                .ForMember(x => x.Phone, s => s.MapFrom(z => z.Phone));
+
+            CreateMap<User, UserViewModel>()
+              .ForMember(x => x.Name, s => s.MapFrom(z => z.UserName))
+              .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
+              .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber));
+
+            CreateMap<UserViewModel, User>()
+              .ForMember(x => x.UserName, s => s.MapFrom(z => z.Name))
+              .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
+              .ForMember(x => x.PhoneNumber, s => s.MapFrom(z => z.Phone));
         }
     }
 }
