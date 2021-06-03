@@ -323,10 +323,16 @@ function deleteUser(id) {
         var fd = new FormData();
         fd.append("id", id);
         xhr.open("POST", "/Rooms/DeleteUser");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                alert(xhr.responseText);
+                location.reload();
+            }
+        };
         xhr.send(fd);
     }
 }
 
 function editUser(id) {
-
+    window.location = `/Rooms/EditUser?id=` + id;
 }

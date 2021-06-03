@@ -4,10 +4,12 @@ using BLL.Interfaces;
 using DAL.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
@@ -21,12 +23,18 @@ namespace UI.Controllers
     {
         private readonly IRoomService _roomService;
         private readonly IMapper _mapper;
-
         private AppUserManager UserManager
         {
             get
             {
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+        }
+        private IAuthenticationManager AuthManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
             }
         }
 
@@ -264,6 +272,7 @@ namespace UI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult ControlCompanies()
         {
             ViewBag.Companies = _roomService.GetCompanies();
@@ -357,7 +366,8 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteUser(string id)
+        [Authorize]
+        public async Task<JsonResult> DeleteUser(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
 
@@ -366,25 +376,24 @@ namespace UI.Controllers
                 IdentityResult result = await UserManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("AdminPanel");
+                    return Json("User was deleted!");
                 }
                 else
                 {
-                    //return View("Error", result.Errors);
-                    return View("Error");
+                    return Json("Errors: " + result.Errors);
                 }
             }
             else
             {
-                //return View("Error", new string[] { "Пользователь не найден" });
-                return View("Error");
+                return Json("User not found!");
             }
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> EditUser(string id)
         {
-            var user = await UserManager.FindByIdAsync(id);
+            var user = _mapper.Map<UserViewModel>(await UserManager.FindByIdAsync(id));
             if (user != null)
             {
                 return View(user);
@@ -396,12 +405,13 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditUser(string id, string email, string password)
+        public async Task<ActionResult> EditUser(UserViewModel model)
         {
-            var user = await UserManager.FindByIdAsync(id);
+            var user = await UserManager.FindByIdAsync(model.Id);
             if (user != null)
             {
-                user.Email = email;
+                user.PhoneNumber = model.Phone;
+                user.Email = model.Email;
                 IdentityResult validEmail
                     = await UserManager.UserValidator.ValidateAsync(user);
 
@@ -412,15 +422,14 @@ namespace UI.Controllers
                 }
 
                 IdentityResult validPass = null;
-                if (password != string.Empty)
+                if (model.Password != string.Empty && model.Password != null && model.Password == model.ConfirmPassword)
                 {
-                    validPass
-                        = await UserManager.PasswordValidator.ValidateAsync(password);
+                    validPass = await UserManager.PasswordValidator.ValidateAsync(model.Password);
 
                     if (validPass.Succeeded)
                     {
                         user.PasswordHash =
-                            UserManager.PasswordHasher.HashPassword(password);
+                            UserManager.PasswordHasher.HashPassword(model.Password);
                     }
                     else
                     {
@@ -430,7 +439,7 @@ namespace UI.Controllers
                 }
 
                 if ((validEmail.Succeeded && validPass == null) ||
-                        (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
+                        (validEmail.Succeeded && model.Password != string.Empty && validPass.Succeeded))
                 {
                     IdentityResult result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
@@ -449,6 +458,40 @@ namespace UI.Controllers
                 ModelState.AddModelError("", "Пользователь не найден");
             }
             return View(user);
+        }
+
+        [AllowAnonymous]
+        public ActionResult SignIn(string returnUrl)
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SignIn(SignInUserViewModel details, string returnUrl)
+        {
+            var user = await UserManager.FindAsync(details.Name, details.Password);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Некорректное имя или пароль.");
+            }
+            else
+            {
+                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
+                    DefaultAuthenticationTypes.ApplicationCookie);
+
+                AuthManager.SignOut();
+                AuthManager.SignIn(new AuthenticationProperties
+                {
+                    IsPersistent = false
+                }, ident);
+                return RedirectToAction("Index");
+            }
+
+            return View(details);
         }
     }
 }

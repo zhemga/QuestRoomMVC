@@ -28,25 +28,37 @@
                         <li class="nav-item">
                             <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="openCart()"><i class="fas fa-shopping-cart"></i> Cart (<span id="amountOfOrders">0</span>)</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="signIn()">Sign In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="signUp()">Sign Up</a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown  m-2 mb-0 mr-4">
-                                <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Admin Features
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="/Rooms/AdminPanel">Admin Panel</a>
-                                    <a class="dropdown-item" onclick="addRoom()">Add Questroom</a>
-                                    <a class="dropdown-item" onclick="controlDecorations()">Control Decorations</a>
-                                    <a class="dropdown-item" onclick="controlCompanies()">Control Companies</a>
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <div class="dropdown  m-2 mb-0 mr-4">
+                                    <button class="btn bg-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Admin Features
+                                    </button>
+                                    <div class="dropdown-menu bg-dark border-warning" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item text-warning" href="/Rooms/AdminPanel">Admin Panel</a>
+                                        <a class="dropdown-item text-warning" href="#" onclick="addRoom()">Add Questroom</a>
+                                        <a class="dropdown-item text-warning" href="#" onclick="controlDecorations()">Control Decorations</a>
+                                        <a class="dropdown-item text-warning" href="#" onclick="controlCompanies()">Control Companies</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="Cabinet()">Cabinet</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="signOut()">Sign Out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="signIn()">Sign In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn bg-greenyellow m-2 mb-0 mr-4" onclick="signUp()">Sign Up</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </nav>
