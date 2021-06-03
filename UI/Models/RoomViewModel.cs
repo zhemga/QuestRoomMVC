@@ -12,22 +12,28 @@ namespace UI.Models
         [MaxLength(2048)]
         public string Description { get; set; }
         [Required]
+        [Display(Name = "Passing Time")]
         public string PassingTime { get; set; }
         [Required]
         [Range(1, 10)]
+        [Display(Name = "Min amount of players")]
         public int MinPlayers { get; set; }
         [Required]
         [Range(1, 100)]
+        [Display(Name = "Min Age")]
         public int MinAge { get; set; }
         [Required]
+        [Display(Name = "Difficulty Level")]
         public string DifficultyLevel { get; set; }
         [Required]
+        [Display(Name = "Horror Level")]
         public string HorrorLevel { get; set; }
         [Required]
         [MaxLength(512)]
         public string Address { get; set; }
         [Required]
         [MaxLength(256)]
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
         [Required]
         [Range(1, 9999)]
@@ -39,6 +45,7 @@ namespace UI.Models
         [Range(0, 5)]
         public double Rating { get; set; }
         [Required]
+        [Display(Name = "Description Type")]
         public string DecorationType { get; set; }
     }
 

@@ -1,4 +1,6 @@
 ﻿using DAL.Entities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -198,9 +200,20 @@ namespace DAL
                new QuestRoom { Address = addresses[random.Next(0, addresses.Count)], Company = companies[random.Next(0, companies.Count)], HorrorLevel = random.Next(1, 6), DifficultyLevel = random.Next(1, 6), MinPlayers = random.Next(1, 5), MinAge = random.Next(3, 10), PassingTime = new DateTime(2000, 1, 1, random.Next(0, 4), random.Next(0, 60), 0), DecorationType = types[random.Next(0, types.Count)], Rating = (random.Next(0, 51) * 0.1), ImagesUrl = "https://picsum.photos/300/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000), Price = random.Next(1, 299), Name = "Comunitat Valenciana", Description = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper. Duis at" }
             };
 
+            var roles = new List<IdentityRole> { new IdentityRole("admin"), new IdentityRole("user") };
+
+            var admin = new User { UserName = "admin", Email = "admin@gmail.com", PhoneNumber = "(124) 891-2647" };
+
             context.Types.AddRange(types);
 
             context.QuestRooms.AddRange(rooms);
+
+            foreach (var item in roles)
+            {
+                context.Roles.Add(item);
+            }
+
+
 
             context.SaveChanges();
 

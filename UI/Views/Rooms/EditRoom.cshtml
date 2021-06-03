@@ -40,7 +40,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Passing Time</label>
+                @Html.LabelFor(model => model.PassingTime, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.PassingTime, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @type = "time" } })
                     @Html.ValidationMessageFor(model => model.PassingTime, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Min amount of players</label>
+                @Html.LabelFor(model => model.MinPlayers, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.MinPlayers, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @min = "1", @max = "10" } })
                     @Html.ValidationMessageFor(model => model.MinPlayers, "", new { @class = "text-danger" })
@@ -56,7 +56,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Min age</label>
+                @Html.LabelFor(model => model.MinAge, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.MinAge, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning", @min = "1", @max = "100" } })
                     @Html.ValidationMessageFor(model => model.MinAge, "", new { @class = "text-danger" })
@@ -64,7 +64,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Difficulty level</label>
+                @Html.LabelFor(model => model.DifficultyLevel, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.DifficultyLevel, new SelectList(Enum.GetValues(typeof(UI.Models.DifficultyLevel))), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.DifficultyLevel, "", new { @class = "text-danger" })
@@ -72,7 +72,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Horror level</label>
+                @Html.LabelFor(model => model.HorrorLevel, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.HorrorLevel, new SelectList(Enum.GetValues(typeof(UI.Models.HorrorLevel))), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.HorrorLevel, "", new { @class = "text-danger" })
@@ -88,7 +88,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Company</label>
+                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.CompanyName, new SelectList(ViewBag.Companies), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
@@ -113,7 +113,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2 text-success">Decoration Type</label>
+                @Html.LabelFor(model => model.DecorationType, htmlAttributes: new { @class = "control-label col-md-2 text-success" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.DecorationType, new SelectList(ViewBag.Types), new { @class = "text-greenyellow form-control bg-dark border border-warning" })
                     @Html.ValidationMessageFor(model => model.DecorationType, "", new { @class = "text-danger" })

@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using UI.Implementation;
+using BLL.Implementation;
 
 namespace UI.Utils
 {

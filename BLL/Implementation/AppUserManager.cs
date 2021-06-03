@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 
-namespace UI.Implementation
+namespace BLL.Implementation
 {
     public class AppUserManager : UserManager<User>
     {
