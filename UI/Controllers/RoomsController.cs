@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using BLL.Implementation;
 using UI.Models;
 using System.Web.Script.Serialization;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace UI.Controllers
 {
@@ -394,11 +395,11 @@ namespace UI.Controllers
                 if (user != null)
                 {
                     var rolesList = RoleManager.Roles.Select(x => x.Name).ToList();
-                    if (rolesList.Contains("sa"))
+                    if (rolesList.Contains("system"))
                     {
-                        rolesList.Remove("sa");
+                        rolesList.Remove("system");
                         ViewBag.Roles = rolesList;
-                    return View(user);
+                        return View(user);
                     }
                 }
                 else
@@ -418,10 +419,14 @@ namespace UI.Controllers
             {
                 if (!UserManager.IsInRole(model.Id, "system"))
                 {
-                    user.PhoneNumber = model.Phone;
-                    user.Email = model.Email;
-                    IdentityResult validEmail
-                        = await UserManager.UserValidator.ValidateAsync(user);
+                    if (user.UserName != model.Name)
+                        user.UserName = model.Name;
+                    if (user.PhoneNumber != model.Phone)
+                        user.PhoneNumber = model.Phone;
+                    if (user.Email != model.Email)
+                        user.Email = model.Email;
+
+                    IdentityResult validEmail = await UserManager.UserValidator.ValidateAsync(user);
 
                     if (!validEmail.Succeeded)
                     {
@@ -444,13 +449,23 @@ namespace UI.Controllers
                         }
                     }
 
-                    if ((validEmail.Succeeded && validPass == null) ||
-                            (validEmail.Succeeded && model.Password != string.Empty && validPass.Succeeded))
+                    if ((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && model.Password != string.Empty && validPass.Succeeded))
                     {
+                        if(model.Role == "user")
+                        {
+                            if (UserManager.IsInRole(user.Id, "admin"))
+                                user.Roles.Remove(user.Roles.First(x => x.RoleId == RoleManager.FindByName("admin").Id));
+                        }
+                        else if(model.Role == "admin")
+                        {
+                            if (!UserManager.IsInRole(user.Id, "admin"))
+                                user.Roles.Add(new IdentityUserRole { RoleId = RoleManager.FindByName("admin").Id, UserId = user.Id });
+                        }
+
                         IdentityResult result = await UserManager.UpdateAsync(user);
                         if (result.Succeeded)
                         {
-                            return RedirectToAction("Index");
+                            return RedirectToAction("ControlUsers");
                         }
                         else
                         {

@@ -4488,51 +4488,6 @@ Pills vertical
 
 
 /*-----------------------
-5.1.  General
---------------------*/
-
-.table {
-    margin-bottom: 0px;
-}
-
-    .table td,
-    .table th {
-        padding: 10px;
-        vertical-align: middle;
-        border-top: 1px solid #e6e6f2;
-        font-weight: normal;
-    }
-
-    .table thead th {
-        vertical-align: bottom;
-        border-bottom: 2px solid #e6e6f2;
-    }
-
-    .table thead th,
-    .table th {
-        color: #3d405c;
-        font-family: 'Circular Std Medium';
-    }
-
-.table-bordered {
-    border: 1px solid #e6e6f2;
-}
-
-    .table-bordered td,
-    .table-bordered th {
-        border: 1px solid #e6e6f2;
-    }
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(230, 230, 242, .5);
-}
-
-.table-hover tbody tr:hover {
-    background-color: rgba(230, 230, 242, .5);
-}
-
-
-/*-----------------------
 5.2.  Data Tables
 --------------------*/
 

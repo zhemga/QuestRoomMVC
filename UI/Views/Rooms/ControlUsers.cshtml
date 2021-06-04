@@ -4,12 +4,11 @@
     ViewBag.Title = "ASP.NET Identity";
 }
 
-<div class="panel panel-primary mt-5 text-warning">
-    <div class="panel-heading">
-        Users
-    </div>
-    <table class="table table-striped text-warning">
-        <tr>
+<center><h2 class="mt-5 text-warning">Users</h2></center>
+
+<div class="container-lg mt-5 text-warning">
+    <table class="table table-bordered table-dark border-warning bg-darkgray">
+        <tr class="text-greenyellow">
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
@@ -19,7 +18,7 @@
         </tr>
         @if (Model == null)
         {
-            <tr>
+            <tr class="text-warning">
                 <td colspan="3" class="text-center">No users!</td>
             </tr>
         }
@@ -27,15 +26,17 @@
         {
             foreach (var user in Model)
             {
-                <tr>
+                <tr class="text-warning">
                     <td>@user.Id</td>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
                     <td>@user.Phone</td>
                     <td>@user.Roles</td>
                     <td>
-                        <button class="btn btn-danger btn-xs" onclick="editUser('@user.Id')">Edit</button>
-                        <button class="btn btn-danger btn-xs" onclick="deleteUser('@user.Id')">Delete</button>
+                        <div class="d-flex justify-content-around align-items-center">
+                            <button class="btn bg-greenyellow btn-xs" onclick="editUser('@user.Id')">Edit</button>
+                            <button class="btn bg-danger btn-xs" onclick="deleteUser('@user.Id')">Delete</button>
+                        </div>
                     </td>
                 </tr>
             }

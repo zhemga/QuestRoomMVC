@@ -42,6 +42,23 @@ namespace UI.Utils
             return string.Join(", ", listOfRoleNames);
         }
 
+        private string GetMostImportantRole(ICollection<IdentityUserRole> identityUserRoles)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationContext()));
+            var listOfRoleNames = new List<string>();
+            foreach (var item in identityUserRoles)
+            {
+                listOfRoleNames.Add(roleManager.FindById(item.RoleId).Name);
+            }
+
+            if (listOfRoleNames.Contains("system"))
+                return "system";
+            else if (listOfRoleNames.Contains("admin"))
+                return "admin";
+            else
+                return "user";
+        }
+
         public AutomapperConfiguration()
         {
             CreateMap<QuestRoom, RoomViewModel>()
@@ -98,7 +115,8 @@ namespace UI.Utils
                 .ForMember(x => x.Id, s => s.MapFrom(z => z.Id))
                 .ForMember(x => x.Name, s => s.MapFrom(z => z.UserName))
                 .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
-                .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber));
+                .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber))
+                .ForMember(x => x.Role, s => s.MapFrom(z => GetMostImportantRole(z.Roles)));
         }
     }
 }
