@@ -28,3 +28,4 @@ C:\repos\QuestRooms\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.dll
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.pdb
+C:\repos\QuestRooms\DAL\obj\Debug\DAL.csprojAssemblyReference.cache

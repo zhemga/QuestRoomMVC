@@ -317,6 +317,10 @@ function signUp() {
     window.location = `/Rooms/SignUp`;
 }
 
+function signOut() {
+    window.location = `/Rooms/signOut`;
+}
+
 function deleteUser(id) {
     if (confirm("Do yo really want to delete user?")) {
         var xhr = new XMLHttpRequest();

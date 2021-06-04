@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using BLL.Implementation;
+using DAL;
 using DAL.Entities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +30,17 @@ namespace UI.Utils
             "Scary",
             "Horror"
         };
+
+        private string GetRolesString(ICollection<IdentityUserRole> identityUserRoles)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationContext()));
+            var listOfRoleNames = new List<string>();
+            foreach (var item in identityUserRoles)
+            {
+                listOfRoleNames.Add(roleManager.FindById(item.RoleId).Name);
+            }
+            return string.Join(", ", listOfRoleNames);
+        }
 
         public AutomapperConfiguration()
         {
@@ -62,15 +77,28 @@ namespace UI.Utils
                .ForMember(x => x.Name, s => s.MapFrom(z => z.Name))
                .ForMember(x => x.Phone, s => s.MapFrom(z => z.Phone));
 
-            CreateMap<User, UserViewModel>()
+            CreateMap<User, SignUpUserViewModel>()
               .ForMember(x => x.Name, s => s.MapFrom(z => z.UserName))
               .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
               .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber));
 
-            CreateMap<UserViewModel, User>()
+            CreateMap<SignUpUserViewModel, User>()
               .ForMember(x => x.UserName, s => s.MapFrom(z => z.Name))
               .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
               .ForMember(x => x.PhoneNumber, s => s.MapFrom(z => z.Phone));
+
+            CreateMap<User, ReadUserViewModel>()
+                .ForMember(x => x.Id, s => s.MapFrom(z => z.Id))
+                .ForMember(x => x.Name, s => s.MapFrom(z => z.UserName))
+                .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
+                .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber))
+                .ForMember(x => x.Roles, s => s.MapFrom(z => GetRolesString(z.Roles)));
+
+            CreateMap<User, EditUserViewModel>()
+                .ForMember(x => x.Id, s => s.MapFrom(z => z.Id))
+                .ForMember(x => x.Name, s => s.MapFrom(z => z.UserName))
+                .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
+                .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber));
         }
     }
 }

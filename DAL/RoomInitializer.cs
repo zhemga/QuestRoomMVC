@@ -11,6 +11,8 @@ namespace DAL
     {
         protected override void Seed(ApplicationContext context)
         {
+            var store = new UserStore<User>(context);
+            var userManager = new UserManager<User>(store);
             var random = new Random();
 
             var addresses = new List<string>
@@ -53,7 +55,6 @@ namespace DAL
                 "Ap #771-2129 Accumsan St.",
                 "Ap #776-7470 Praesent Street"
             };
-
             var types = new List<DecorationType>
             {
                 new DecorationType { Name = "Horror "},
@@ -64,7 +65,6 @@ namespace DAL
                 new DecorationType { Name = "Jail" },
                 new DecorationType { Name = "Other" }
             };
-
             var companies = new List<Company> 
             {
                 new Company { Name = "Donec Feugiat Consulting", Phone = "(693) 990-5885" },
@@ -95,7 +95,6 @@ namespace DAL
                 new Company { Name = "Eu Associates", Phone = "(382) 895-1104" },
                 new Company { Name = "Neque Foundation", Phone = "(373) 500-1311" },
             };
-
             var rooms = new List<QuestRoom>
             {
                new QuestRoom { Address = addresses[random.Next(0, addresses.Count)], Company = companies[random.Next(0, companies.Count)], HorrorLevel = random.Next(1, 6), DifficultyLevel = random.Next(1, 6), MinPlayers = random.Next(1, 5), MinAge = random.Next(3, 10), PassingTime = new DateTime(2000, 1, 1, random.Next(0, 4), random.Next(0, 60), 0), DecorationType = types[random.Next(0, types.Count)], Rating = (random.Next(0, 51) * 0.1), ImagesUrl = "https://picsum.photos/300/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000), Price = random.Next(1, 299), Name = "São Paulo", Description = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper. Duis at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum massa" },
@@ -199,10 +198,12 @@ namespace DAL
                new QuestRoom { Address = addresses[random.Next(0, addresses.Count)], Company = companies[random.Next(0, companies.Count)], HorrorLevel = random.Next(1, 6), DifficultyLevel = random.Next(1, 6), MinPlayers = random.Next(1, 5), MinAge = random.Next(3, 10), PassingTime = new DateTime(2000, 1, 1, random.Next(0, 4), random.Next(0, 60), 0), DecorationType = types[random.Next(0, types.Count)], Rating = (random.Next(0, 51) * 0.1), ImagesUrl = "https://picsum.photos/300/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000), Price = random.Next(1, 299), Name = "Chiapas", Description = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper. Duis at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum magna. Cras convallis convallis dolor. Quisque tincidunt pede ac urna. Ut" },
                new QuestRoom { Address = addresses[random.Next(0, addresses.Count)], Company = companies[random.Next(0, companies.Count)], HorrorLevel = random.Next(1, 6), DifficultyLevel = random.Next(1, 6), MinPlayers = random.Next(1, 5), MinAge = random.Next(3, 10), PassingTime = new DateTime(2000, 1, 1, random.Next(0, 4), random.Next(0, 60), 0), DecorationType = types[random.Next(0, types.Count)], Rating = (random.Next(0, 51) * 0.1), ImagesUrl = "https://picsum.photos/300/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000) + "," + "https://picsum.photos/1600/250?random=" + random.Next(0, 1000), Price = random.Next(1, 299), Name = "Comunitat Valenciana", Description = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper. Duis at" }
             };
+            var roles = new List<IdentityRole> { new IdentityRole("system"), new IdentityRole("admin"), new IdentityRole("user") };
+            var passwords = new List<string> { "justHead1", "justManager1", "justCustomer1" };
 
-            var roles = new List<IdentityRole> { new IdentityRole("admin"), new IdentityRole("user") };
-
+            var sa = new User { UserName = "sa", Email = "sa@gmail.com", PhoneNumber = "(042) 045-6447" };
             var admin = new User { UserName = "admin", Email = "admin@gmail.com", PhoneNumber = "(124) 891-2647" };
+            var user = new User { UserName = "user", Email = "user@gmail.com", PhoneNumber = "(465) 768-2786" };
 
             context.Types.AddRange(types);
 
@@ -213,7 +214,18 @@ namespace DAL
                 context.Roles.Add(item);
             }
 
+            userManager.Create(sa, passwords[0]);
+            userManager.Create(admin, passwords[1]);
+            userManager.Create(user, passwords[2]);
 
+            context.SaveChanges();
+
+            userManager.AddToRole(userManager.Find(sa.UserName, passwords[0]).Id, roles[0].Name);
+            userManager.AddToRole(userManager.Find(sa.UserName, passwords[0]).Id, roles[1].Name);
+            userManager.AddToRole(userManager.Find(sa.UserName, passwords[0]).Id, roles[2].Name);
+            userManager.AddToRole(userManager.Find(admin.UserName, passwords[1]).Id, roles[1].Name);
+            userManager.AddToRole(userManager.Find(admin.UserName, passwords[1]).Id, roles[2].Name);
+            userManager.AddToRole(userManager.Find(user.UserName, passwords[2]).Id, roles[2].Name);
 
             context.SaveChanges();
 

@@ -12,10 +12,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using BLL.Implementation;
 using UI.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using DAL;
 
 namespace UI.Controllers
 {
@@ -335,34 +336,8 @@ namespace UI.Controllers
 
         public ActionResult AdminPanel()
         {
-            var users = _mapper.Map<List<UserViewModel>>(UserManager.Users.ToArray());
+            var users = _mapper.Map<List<ReadUserViewModel>>(UserManager.Users.ToArray());
             return View("AdminPanel", users);
-        }
-
-        [HttpGet]
-        public ActionResult SignUp()
-        {
-            return View("SignUp");
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> SignUp(UserViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new User { UserName = model.Name, Email = model.Email, PhoneNumber = model.Phone };
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View("Error");
-                }
-            }
-            return View(model);
         }
 
         [HttpPost]
@@ -393,7 +368,7 @@ namespace UI.Controllers
         [Authorize]
         public async Task<ActionResult> EditUser(string id)
         {
-            var user = _mapper.Map<UserViewModel>(await UserManager.FindByIdAsync(id));
+            var user = _mapper.Map<EditUserViewModel>(await UserManager.FindByIdAsync(id));
             if (user != null)
             {
                 return View(user);
@@ -405,7 +380,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditUser(UserViewModel model)
+        public async Task<ActionResult> EditUser(EditUserViewModel model)
         {
             var user = await UserManager.FindByIdAsync(model.Id);
             if (user != null)
@@ -460,6 +435,43 @@ namespace UI.Controllers
             return View(user);
         }
 
+        [HttpGet]
+        public ActionResult SignUp()
+        {
+            return View("SignUp");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SignUp(SignUpUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationContext()));
+                var user = new User { UserName = model.Name, Email = model.Email, PhoneNumber = model.Phone };
+                IdentityResult resultCreate = await UserManager.CreateAsync(user, model.Password);
+                if (roleManager.RoleExists("user"))
+                {
+                    if (resultCreate.Succeeded)
+                    {
+                        IdentityResult resultRole = await UserManager.AddToRoleAsync((await UserManager.FindAsync(model.Name, model.Password)).Id, "user");
+                        if (resultRole.Succeeded)
+                            return RedirectToAction("SignIn");
+                        else
+                            ModelState.AddModelError("", string.Join(", ", resultRole.Errors));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", string.Join(", ", resultCreate.Errors));
+                    }
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            return View(model);
+        }
+
         [AllowAnonymous]
         public ActionResult SignIn(string returnUrl)
         {
@@ -470,7 +482,7 @@ namespace UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SignIn(SignInUserViewModel details, string returnUrl)
+        public async Task<ActionResult> SignIn(SignInUserViewModel details)
         {
             var user = await UserManager.FindAsync(details.Name, details.Password);
 
@@ -480,8 +492,7 @@ namespace UI.Controllers
             }
             else
             {
-                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
-                    DefaultAuthenticationTypes.ApplicationCookie);
+                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
                 AuthManager.SignOut();
                 AuthManager.SignIn(new AuthenticationProperties
@@ -492,6 +503,13 @@ namespace UI.Controllers
             }
 
             return View(details);
+        }
+
+        public ActionResult SignOut()
+        {
+            AuthManager.SignOut();
+
+            return RedirectToAction("SignIn");
         }
     }
 }

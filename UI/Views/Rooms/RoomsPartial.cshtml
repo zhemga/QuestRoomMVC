@@ -62,7 +62,8 @@
                     <a class="btn bg-warning m-1 float-right" onclick="showRoomDetails(@item.Id)">Show details</a>
                     <a class="btn bg-greenyellow m-1 float-right" onclick="addOrder(@item.Id)">Add in order list</a>
 
-                    @{
+                    @if (this.User.IsInRole("admin"))
+                    {
                         <br />
                         <hr class="bg-darkgray mt-3" />
                         <a class="btn bg-danger m-1 float-right" onclick="deleteRoom(@item.Id)">Delete</a>
