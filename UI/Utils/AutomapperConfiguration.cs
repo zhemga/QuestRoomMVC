@@ -117,6 +117,17 @@ namespace UI.Utils
                 .ForMember(x => x.Email, s => s.MapFrom(z => z.Email))
                 .ForMember(x => x.Phone, s => s.MapFrom(z => z.PhoneNumber))
                 .ForMember(x => x.Role, s => s.MapFrom(z => GetMostImportantRole(z.Roles)));
+
+            CreateMap<OrderContainer, OrderContainerViewModel>()
+                .ForMember(x => x.Id, s => s.MapFrom(z => z.Id))
+                .ForMember(x => x.DateTime, s => s.MapFrom(z => z.DateTime.ToString()))
+                .ForMember(x => x.IsAccepted, s => s.MapFrom(z => z.IsAccepted));
+
+            CreateMap<Order, OrderDetailsViewModel>()
+                .ForMember(x => x.Name, s => s.MapFrom(z => z.QuestRoom.Name))
+                .ForMember(x => x.AmountOfHours, s => s.MapFrom(z => z.Count))
+                .ForMember(x => x.PricePerHour, s => s.MapFrom(z => z.QuestRoom.Price))
+                .ForMember(x => x.TotalPrice, s => s.MapFrom(z => z.QuestRoom.Price * z.Count));
         }
     }
 }

@@ -7,6 +7,8 @@
 
 <center>
     <h2 class="mt-5 mb-0 text-warning"><i class="fas fa-shopping-cart"></i> Cart</h2>
+    <button class="btn bg-greenyellow mt-3" onclick="clearCart()">Clear Cart</button>
+
     <div class="d-flex flex-row mb-5 w-85 mt-4">
         <div class="container-fluid mr-2">
             @{ Html.RenderPartial("CartPartial", Model); }

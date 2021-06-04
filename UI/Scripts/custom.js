@@ -358,3 +358,13 @@ function deleteUser(id) {
 function editUser(id) {
     window.location = `/Rooms/EditUser?id=` + id;
 }
+
+function clearCart() {
+    orders = [];
+    localStorage.setItem("orders", JSON.stringify(orders));
+    index();
+}
+
+function showOrderDetails(id) {
+    window.location = `/Rooms/OrderDetails?id=` + id;
+}

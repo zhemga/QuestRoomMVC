@@ -1,0 +1,41 @@
+﻿@model IEnumerable<UI.Models.OrderDetailsViewModel>
+
+@{
+    ViewBag.Title = "Order Details";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<center><h2 class="mt-5 text-warning">Order Details</h2></center>
+
+<div class="container-lg mt-5 text-warning">
+    <table class="table table-bordered table-dark border-warning bg-darkgray">
+        <tr class="text-greenyellow">
+            <th>Name</th>
+            <th>Amount Of Hours</th>
+            <th>Price Per Hour</th>
+            <th>Total Price</th>
+        </tr>
+        @if (Model == null)
+        {
+            <tr class="text-warning">
+                <td colspan="4" class="text-center">Error!</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var order in Model)
+            {
+                <tr class="text-warning">
+                    <td>@order.Name</td>
+                    <td>@order.AmountOfHours</td>
+                    <td>@order.PricePerHour $</td>
+                    <td>@order.TotalPrice $</td>
+                </tr>
+            }
+            <tr class="text-greenyellow">
+                <td>Total:</td>
+                <td colspan="3">@Model.Sum(i => i.TotalPrice) $</td>
+            </tr>
+        }
+    </table>
+</div>

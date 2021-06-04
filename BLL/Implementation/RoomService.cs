@@ -145,5 +145,10 @@ namespace BLL.Implementation
         {
             await _orderContainerRepository.DeleteAsync(id);
         }
+
+        public OrderContainer GetOrderContainer(int id)
+        {
+            return _orderContainerRepository.Get(id);
+        }
     }
 }

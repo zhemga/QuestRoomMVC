@@ -26,5 +26,6 @@ namespace BLL.Interfaces
         QuestRoom GetRoom(int id);
         DecorationType GetType(int id);
         Company GetCompany(int id);
+        OrderContainer GetOrderContainer(int id);
     }
 }

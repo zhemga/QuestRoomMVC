@@ -6,6 +6,6 @@ namespace DAL.Entities
 {
     public class User: IdentityUser
     {
-        public ICollection<OrderContainer> OrderContainer { get; set; }
+        public virtual ICollection<OrderContainer> OrderContainer { get; set; }
     }
 }

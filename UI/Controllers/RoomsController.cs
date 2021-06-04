@@ -451,12 +451,12 @@ namespace UI.Controllers
 
                     if ((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && model.Password != string.Empty && validPass.Succeeded))
                     {
-                        if(model.Role == "user")
+                        if (model.Role == "user")
                         {
                             if (UserManager.IsInRole(user.Id, "admin"))
                                 user.Roles.Remove(user.Roles.First(x => x.RoleId == RoleManager.FindByName("admin").Id));
                         }
-                        else if(model.Role == "admin")
+                        else if (model.Role == "admin")
                         {
                             if (!UserManager.IsInRole(user.Id, "admin"))
                                 user.Roles.Add(new IdentityUserRole { RoleId = RoleManager.FindByName("admin").Id, UserId = user.Id });
@@ -487,12 +487,14 @@ namespace UI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult SignUp()
         {
             return View("SignUp");
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> SignUp(SignUpUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -585,7 +587,7 @@ namespace UI.Controllers
             }
             else
             {
-                var orderContainer = new OrderContainer { NotRegisteredUser = true, Phone = model.Phone };
+                var orderContainer = new OrderContainer { DateTime = DateTime.Now, IsAccepted = false, NotRegisteredUser = true, Phone = model.Phone };
 
                 try
                 {
@@ -610,7 +612,7 @@ namespace UI.Controllers
         [Authorize(Roles = "user")]
         public async Task<JsonResult> RegisteredOrder(string OrdersStringJSON)
         {
-            var orderContainer = new OrderContainer { NotRegisteredUser = false, UserId = User.Identity.GetUserId() };
+            var orderContainer = new OrderContainer { DateTime = DateTime.Now, IsAccepted = false, NotRegisteredUser = false, UserId = User.Identity.GetUserId() };
 
             try
             {
@@ -626,6 +628,31 @@ namespace UI.Controllers
             await _roomService.AddOrderContainerAsync(orderContainer);
 
             return Json("Successful order!");
+        }
+
+        [Authorize(Roles = "user")]
+        public ActionResult Cabinet()
+        {
+            if (Request.IsAuthenticated)
+            {
+                var orderContainers = _mapper.Map<List<OrderContainerViewModel>>(_roomService.GetAllOrderContainers().Where(x => x.UserId == User.Identity.GetUserId()));
+                if (orderContainers.Count > 0)
+                    return View(orderContainers);
+                return View();
+            }
+            return View("Error");
+        }
+
+        [Authorize(Roles = "user")]
+        public ActionResult OrderDetails(int id)
+        {
+            var orderContainer = _roomService.GetOrderContainer(id); 
+            if(orderContainer != null && orderContainer.UserId == User.Identity.GetUserId())
+            {
+                var orderList = _mapper.Map<List<OrderDetailsViewModel>>(orderContainer.Order);
+                return View("OrderDetails", orderList);
+            }
+            return View("Error");
         }
     }
 }

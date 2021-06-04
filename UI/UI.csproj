@@ -301,6 +301,8 @@
     <Compile Include="Attributes\CustomPhoneAttribute.cs" />
     <Compile Include="Models\CompanyViewModel.cs" />
     <Compile Include="Models\DecorationTypeViewModel.cs" />
+    <Compile Include="Models\OrderContainerViewModel.cs" />
+    <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\SignInUserViewModel.cs" />
     <Compile Include="Models\NotRegisteredOrderViewModel.cs" />
     <Compile Include="Models\RoomViewModel.cs" />
@@ -332,6 +334,8 @@
     <Content Include="Views\Rooms\SignUp.cshtml" />
     <Content Include="Views\Rooms\EditUser.cshtml" />
     <Content Include="Views\Rooms\SignIn.cshtml" />
+    <Content Include="Views\Rooms\Cabinet.cshtml" />
+    <Content Include="Views\Rooms\OrderDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

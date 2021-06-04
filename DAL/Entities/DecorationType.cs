@@ -13,6 +13,6 @@ namespace DAL.Entities
         [Index(IsUnique = true)]
         public string Name { get; set; }
 
-        public ICollection<QuestRoom> QuestRoom { get; set; }
+        public virtual ICollection<QuestRoom> QuestRoom { get; set; }
     }
 }

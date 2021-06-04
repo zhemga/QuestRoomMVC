@@ -17,6 +17,6 @@ namespace DAL.Entities
         [Phone]
         public string Phone { get; set; }
 
-        public ICollection<QuestRoom> QuestRoom { get; set; }
+        public virtual ICollection<QuestRoom> QuestRoom { get; set; }
     }
 }
