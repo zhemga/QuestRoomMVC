@@ -46,6 +46,6 @@ namespace DAL.Entities
         public int CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
-        public ICollection<OrderContainer> OrderContainer { get; set; }
+        public virtual ICollection<OrderContainer> OrderContainer { get; set; }
     }
 }

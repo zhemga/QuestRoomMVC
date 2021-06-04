@@ -12,50 +12,47 @@
                     <p class="card-text">Company: <strong>@item.CompanyName</strong></p>
                     <p class="card-text">Price: <strong>@item.Price $ per hour</strong></p>
 
-                    @for (int i = 0; i < Math.Floor(@item.Rating) + 1; i++)
-                    {
-                        if (i > 0)
-                        {
-                            <span class="fa fa-star text-warning"></span>
-                        }
-                    }
-
-                    @if (@item.Rating - Math.Floor(@item.Rating) == 0)
-                    {
-                        <span class="fa fa-star"></span>
-                    }
-                    else if (@item.Rating - Math.Floor(@item.Rating) < 0.3)
-                    {
-                        <span class="fa fa-star star03"></span>
-                    }
-                    else if (@item.Rating - Math.Floor(@item.Rating) < 0.5 && @item.Rating - Math.Floor(@item.Rating) >= 0.3)
-                    {
-                        <span class="fa fa-star star04"></span>
-                    }
-                    else if (@item.Rating - Math.Floor(@item.Rating) == 0.5)
-                    {
-                        <span class="fa fa-star star05"></span>
-                    }
-                    else if (@item.Rating - Math.Floor(@item.Rating) < 0.8 && @item.Rating - Math.Floor(@item.Rating) > 0.5)
-                    {
-                        <span class="fa fa-star star06"></span>
-                    }
-                    else if (@item.Rating - Math.Floor(@item.Rating) < 1)
-                    {
-                        <span class="fa fa-star star07"></span>
-                    }
-                    else
+                    @for (int i = 0; i < (int)@item.Rating; i++)
                     {
                         <span class="fa fa-star text-warning"></span>
                     }
 
-                    @for (int i = 0; i < 5 - Math.Floor(@item.Rating); i++)
+                    @if (@item.Rating - (int)@item.Rating > 0 && @item.Rating - (int)@item.Rating < 0.3)
                     {
-                        if (i > 0)
+                        <span class="fa fa-star star03"></span>
+                    }
+                    else if (@item.Rating - (int)@item.Rating < 0.5 && @item.Rating - (int)@item.Rating >= 0.3)
+                    {
+                        <span class="fa fa-star star04"></span>
+                    }
+                    else if (@item.Rating - (int)@item.Rating == 0.5)
+                    {
+                        <span class="fa fa-star star05"></span>
+                    }
+                    else if (@item.Rating - (int)@item.Rating < 0.8 && @item.Rating - (int)@item.Rating > 0.5)
+                    {
+                        <span class="fa fa-star star06"></span>
+                    }
+                    else if (@item.Rating - (int)@item.Rating >= 0.8 && @item.Rating - (int)@item.Rating < 1)
+                    {
+                        <span class="fa fa-star star07"></span>
+                    }
+
+                    @if (@item.Rating - (int)@item.Rating != 0)
+                    {
+                        for (int i = 1; i < 5 - item.Rating; i++)
                         {
                             <span class="fa fa-star"></span>
                         }
                     }
+                    else
+                    {
+                        for (int i = 0; i < 5 - item.Rating; i++)
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    }
+
                     <span class="text-success">@item.Rating</span>
                     <br />
                     <hr class="bg-dark" />

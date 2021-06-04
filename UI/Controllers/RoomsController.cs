@@ -56,6 +56,11 @@ namespace UI.Controllers
         {
             SetViewBag();
 
+            if (Session["RoomsFilter"] != null)
+            {
+                Session["RoomsFilter"] = null;
+            }
+
             Response.Cookies["id"].Value = Guid.NewGuid().ToString();
 
             var serv = _roomService.GetAllQuestRooms(null).ToList();

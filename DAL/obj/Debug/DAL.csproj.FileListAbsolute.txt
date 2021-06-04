@@ -24,8 +24,8 @@ C:\repos\QuestRooms\DAL\bin\Debug\Microsoft.Owin.Security.xml
 C:\repos\QuestRooms\DAL\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 C:\repos\QuestRooms\DAL\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 C:\repos\QuestRooms\DAL\bin\Debug\Newtonsoft.Json.xml
+C:\repos\QuestRooms\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.dll
 C:\repos\QuestRooms\DAL\obj\Debug\DAL.pdb
-C:\repos\QuestRooms\DAL\obj\Debug\DAL.csprojAssemblyReference.cache

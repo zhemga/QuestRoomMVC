@@ -1,4 +1,4 @@
-﻿@model UI.Models.RoomViewModel
+﻿@Model UI.Models.RoomViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
@@ -52,46 +52,42 @@
 <center>
     <h1 class="text-warning mt-3 mb-0">@Model.Name</h1>
 
-    @for (int i = 0; i < Math.Floor(@Model.Rating) + 1; i++)
-    {
-        if (i > 0)
-        {
-            <span class="fa fa-star text-warning"></span>
-        }
-    }
-
-    @if (@Model.Rating - Math.Floor(@Model.Rating) == 0)
-    {
-        <span class="fa fa-star"></span>
-    }
-    else if (@Model.Rating - Math.Floor(@Model.Rating) < 0.3)
-    {
-        <span class="fa fa-star star03"></span>
-    }
-    else if (@Model.Rating - Math.Floor(@Model.Rating) < 0.5 && @Model.Rating - Math.Floor(@Model.Rating) >= 0.3)
-    {
-        <span class="fa fa-star star04"></span>
-    }
-    else if (@Model.Rating - Math.Floor(@Model.Rating) == 0.5)
-    {
-        <span class="fa fa-star star05"></span>
-    }
-    else if (@Model.Rating - Math.Floor(@Model.Rating) < 0.8 && @Model.Rating - Math.Floor(@Model.Rating) > 0.5)
-    {
-        <span class="fa fa-star star06"></span>
-    }
-    else if (@Model.Rating - Math.Floor(@Model.Rating) < 1)
-    {
-        <span class="fa fa-star star07"></span>
-    }
-    else
+    @for (int i = 0; i < (int)@Model.Rating; i++)
     {
         <span class="fa fa-star text-warning"></span>
     }
 
-    @for (int i = 0; i < 5 - Math.Floor(@Model.Rating); i++)
+    @if (@Model.Rating - (int)@Model.Rating > 0 && @Model.Rating - (int)@Model.Rating < 0.3)
     {
-        if (i > 0)
+        <span class="fa fa-star star03"></span>
+    }
+    else if (@Model.Rating - (int)@Model.Rating < 0.5 && @Model.Rating - (int)@Model.Rating >= 0.3)
+    {
+        <span class="fa fa-star star04"></span>
+    }
+    else if (@Model.Rating - (int)@Model.Rating == 0.5)
+    {
+        <span class="fa fa-star star05"></span>
+    }
+    else if (@Model.Rating - (int)@Model.Rating < 0.8 && @Model.Rating - (int)@Model.Rating > 0.5)
+    {
+        <span class="fa fa-star star06"></span>
+    }
+    else if (@Model.Rating - (int)@Model.Rating >= 0.8 && @Model.Rating - (int)@Model.Rating < 1)
+    {
+        <span class="fa fa-star star07"></span>
+    }
+
+    @if (@Model.Rating - (int)@Model.Rating != 0)
+    {
+        for (int i = 1; i < 5 - @Model.Rating; i++)
+        {
+            <span class="fa fa-star"></span>
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 5 - @Model.Rating; i++)
         {
             <span class="fa fa-star"></span>
         }
