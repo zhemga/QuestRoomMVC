@@ -1,4 +1,4 @@
-﻿@model UI.Models.NotRegisteredOrder
+﻿@model UI.Models.NotRegisteredOrderViewModel
 
 @using (Html.BeginForm("NotRegisteredOrder", "Rooms", FormMethod.Post))
 {
@@ -18,13 +18,10 @@
                     <div class="col-md-12">
                         @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "text-greenyellow form-control bg-dark border border-warning" }, @type = "tel", @pattern = "([0-9]{3}) [0-9]{3}-[0-9]{4}" })
                         @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-                        @Html.ValidationMessageFor(model => model.OrdersStringJSON, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="d-none">
-                    @Html.EditorFor(model => model.OrdersStringJSON, new { htmlAttributes = new { @id = "dataString", @disabled = "disabled", @class = "form-control" } })
-                </div>
+                @Html.TextBoxFor(model => model.OrdersStringJSON, new { @Value = @ViewBag.OrderContainer, @type = "hidden" })
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">

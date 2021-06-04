@@ -302,7 +302,7 @@
     <Compile Include="Models\CompanyViewModel.cs" />
     <Compile Include="Models\DecorationTypeViewModel.cs" />
     <Compile Include="Models\SignInUserViewModel.cs" />
-    <Compile Include="Models\NotRegisteredOrder.cs" />
+    <Compile Include="Models\NotRegisteredOrderViewModel.cs" />
     <Compile Include="Models\RoomViewModel.cs" />
     <Compile Include="Models\ReadUserViewModel.cs" />
     <Compile Include="Models\EditUserViewModel.cs" />
@@ -328,7 +328,7 @@
     <Content Include="Views\Rooms\ControlCompanies.cshtml" />
     <Content Include="Views\Rooms\CartPartial.cshtml" />
     <Content Include="Views\Rooms\NotRegisteredOrder.cshtml" />
-    <Content Include="Views\Rooms\AdminPanel.cshtml" />
+    <Content Include="Views\Rooms\ControlUsers.cshtml" />
     <Content Include="Views\Rooms\SignUp.cshtml" />
     <Content Include="Views\Rooms\EditUser.cshtml" />
     <Content Include="Views\Rooms\SignIn.cshtml" />

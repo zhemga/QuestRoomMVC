@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BLL.Implementation
@@ -17,12 +16,14 @@ namespace BLL.Implementation
         private readonly IGenericRepository<QuestRoom> _roomRepository;
         private readonly IGenericRepository<DecorationType> _typeRepository;
         private readonly IGenericRepository<Company> _companyRepository;
+        private readonly IGenericRepository<OrderContainer> _orderContainerRepository;
 
-        public RoomService(IGenericRepository<QuestRoom> roomRepository, IGenericRepository<DecorationType> typeRepository, IGenericRepository<Company> companyRepository)
+        public RoomService(IGenericRepository<QuestRoom> roomRepository, IGenericRepository<DecorationType> typeRepository, IGenericRepository<Company> companyRepository, IGenericRepository<OrderContainer> orderContainerRepository)
         {
             _roomRepository = roomRepository;
             _typeRepository = typeRepository;
             _companyRepository = companyRepository;
+            _orderContainerRepository = orderContainerRepository;
         }
 
         public async Task AddRoomAsync(QuestRoom room)
@@ -128,6 +129,21 @@ namespace BLL.Implementation
         public IEnumerable<string> GetCompanies()
         {
             return this.GetAllCompanies().Select(x => x.Name);
+        }
+
+        public IEnumerable<OrderContainer> GetAllOrderContainers()
+        {
+            return _orderContainerRepository.GetAll();
+        }
+
+        public async Task AddOrderContainerAsync(OrderContainer orderContainer)
+        {
+            await _orderContainerRepository.CreateAsync(orderContainer);
+        }
+
+        public async Task DeleteOrderContainerAsync(int id)
+        {
+            await _orderContainerRepository.DeleteAsync(id);
         }
     }
 }

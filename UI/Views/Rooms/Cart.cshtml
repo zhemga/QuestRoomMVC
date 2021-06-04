@@ -15,7 +15,12 @@
             <h3 class="text-warning">Your order:</h3>
             <p>Total amount of orders: <span class="text-warning">@Model.Count</span></p>
             <p>Total price: <span class="text-warning"><span id="totalPrice">0</span> $</span></p>
-            @{
+            @if (Request.IsAuthenticated)
+            {
+                <button class="btn bg-greenyellow" onclick="registeredOrder()">Make Order</button>
+            }
+            else
+            {
                 <button class="btn bg-greenyellow" onclick="notRegisteredOrder()">Continue to make order</button>
             }
         </div>

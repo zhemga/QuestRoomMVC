@@ -184,3 +184,8 @@ textarea {
 .h-75vh{
     height: 75vh !important;
 }
+
+.validation-summary-errors {
+    display: flex;
+    justify-content: center;
+}

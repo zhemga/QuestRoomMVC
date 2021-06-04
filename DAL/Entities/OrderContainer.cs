@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
     public class OrderContainer
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
         public string Phone { get; set; }
+        [Required]
         public bool NotRegisteredUser { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual User User { get; set; }
         public ICollection<Order> Order { get; set; }
     }

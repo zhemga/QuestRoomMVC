@@ -10,13 +10,16 @@ namespace BLL.Interfaces
         IEnumerable<QuestRoom> GetAllQuestRooms(List<RoomsFilter> filters);
         IEnumerable<DecorationType> GetAllTypes();
         IEnumerable<Company> GetAllCompanies();
+        IEnumerable<OrderContainer> GetAllOrderContainers();
         Task AddRoomAsync(QuestRoom room);
         Task AddCompanyAsync(Company company);
         Task AddTypeAsync(DecorationType decorationType);
+        Task AddOrderContainerAsync(OrderContainer orderContainer);
         Task EditRoomAsync(QuestRoom room);
         Task DeleteRoomAsync(int id);
         Task DeleteCompanyAsync(int id);
         Task DeleteTypeAsync(int id);
+        Task DeleteOrderContainerAsync(int id);
         IEnumerable<string> GetTypes();
         IEnumerable<string> GetCompanies();
         IEnumerable<string> GetRatings();

@@ -15,8 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using BLL.Implementation;
 using UI.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
-using DAL;
+using System.Web.Script.Serialization;
 
 namespace UI.Controllers
 {
@@ -29,6 +28,13 @@ namespace UI.Controllers
             get
             {
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+        }
+        private AppRoleManager RoleManager
+        {
+            get
+            {
+                return AppRoleManager.Create(null, HttpContext.GetOwinContext());
             }
         }
         private IAuthenticationManager AuthManager
@@ -137,6 +143,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> AddRoom(RoomViewModel model)
         {
             if (!ModelState.IsValid)
@@ -168,6 +175,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public JsonResult UploadImage()
         {
             string fileName = "";
@@ -187,6 +195,7 @@ namespace UI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult EditRoom(int id)
         {
             var foundRoom = _mapper.Map<RoomViewModel>(_roomService.GetRoom(id));
@@ -196,6 +205,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> EditRoom(RoomViewModel model)
         {
             if (!ModelState.IsValid)
@@ -226,6 +236,7 @@ namespace UI.Controllers
             return View("Error");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteRoom(int id)
         {
             try
@@ -240,6 +251,7 @@ namespace UI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult ControlDecorations()
         {
             ViewBag.Types = _roomService.GetTypes();
@@ -247,6 +259,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> AddDecoration(DecorationTypeViewModel decoration)
         {
             if (!ModelState.IsValid)
@@ -260,6 +273,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteDecoration(DecorationTypeViewModel decoration)
         {
             int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == decoration.Name).Select(x => x.Id).FirstOrDefault();
@@ -274,6 +288,7 @@ namespace UI.Controllers
 
         [HttpGet]
         [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult ControlCompanies()
         {
             ViewBag.Companies = _roomService.GetCompanies();
@@ -281,6 +296,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> AddCompany(CompanyViewModel company)
         {
             if (!ModelState.IsValid)
@@ -294,6 +310,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteCompany(CompanyViewModel company)
         {
             int? validationTypeId = _roomService.GetAllCompanies().Where(x => x.Name == company.Name).Select(x => x.Id).FirstOrDefault();
@@ -329,33 +346,36 @@ namespace UI.Controllers
             return View("Error");
         }
 
-        public ActionResult NotRegisteredOrder()
-        {
-            return View("NotRegisteredOrder");
-        }
-
-        public ActionResult AdminPanel()
+        [Authorize(Roles = "admin")]
+        public ActionResult ControlUsers()
         {
             var users = _mapper.Map<List<ReadUserViewModel>>(UserManager.Users.ToArray());
-            return View("AdminPanel", users);
+            return View("ControlUsers", users);
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "system")]
         public async Task<JsonResult> DeleteUser(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
 
             if (user != null)
             {
-                IdentityResult result = await UserManager.DeleteAsync(user);
-                if (result.Succeeded)
+                if (!UserManager.IsInRole(id, "system"))
                 {
-                    return Json("User was deleted!");
+                    IdentityResult result = await UserManager.DeleteAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return Json("User was deleted!");
+                    }
+                    else
+                    {
+                        return Json("Errors: " + result.Errors);
+                    }
                 }
                 else
                 {
-                    return Json("Errors: " + result.Errors);
+                    return Json("Can not delete system admin account.");
                 }
             }
             else
@@ -365,73 +385,89 @@ namespace UI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "system")]
         public async Task<ActionResult> EditUser(string id)
         {
-            var user = _mapper.Map<EditUserViewModel>(await UserManager.FindByIdAsync(id));
-            if (user != null)
+            if (!UserManager.IsInRole(id, "system"))
             {
-                return View(user);
+                var user = _mapper.Map<EditUserViewModel>(await UserManager.FindByIdAsync(id));
+                if (user != null)
+                {
+                    var rolesList = RoleManager.Roles.Select(x => x.Name).ToList();
+                    if (rolesList.Contains("sa"))
+                    {
+                        rolesList.Remove("sa");
+                        ViewBag.Roles = rolesList;
+                    return View(user);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return View("Error");
         }
 
         [HttpPost]
+        [Authorize(Roles = "system")]
         public async Task<ActionResult> EditUser(EditUserViewModel model)
         {
             var user = await UserManager.FindByIdAsync(model.Id);
             if (user != null)
             {
-                user.PhoneNumber = model.Phone;
-                user.Email = model.Email;
-                IdentityResult validEmail
-                    = await UserManager.UserValidator.ValidateAsync(user);
-
-                if (!validEmail.Succeeded)
+                if (!UserManager.IsInRole(model.Id, "system"))
                 {
-                    //AddErrorsFromResult(validEmail);
-                    return View("Error");
+                    user.PhoneNumber = model.Phone;
+                    user.Email = model.Email;
+                    IdentityResult validEmail
+                        = await UserManager.UserValidator.ValidateAsync(user);
+
+                    if (!validEmail.Succeeded)
+                    {
+                        ModelState.AddModelError("", string.Join(", ", validEmail.Errors));
+                    }
+
+                    IdentityResult validPass = null;
+                    if (model.Password != string.Empty && model.Password != null && model.Password == model.ConfirmPassword)
+                    {
+                        validPass = await UserManager.PasswordValidator.ValidateAsync(model.Password);
+
+                        if (validPass.Succeeded)
+                        {
+                            user.PasswordHash =
+                                UserManager.PasswordHasher.HashPassword(model.Password);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", string.Join(", ", validPass.Errors));
+                        }
+                    }
+
+                    if ((validEmail.Succeeded && validPass == null) ||
+                            (validEmail.Succeeded && model.Password != string.Empty && validPass.Succeeded))
+                    {
+                        IdentityResult result = await UserManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", string.Join(", ", result.Errors));
+                        }
+                    }
                 }
-
-                IdentityResult validPass = null;
-                if (model.Password != string.Empty && model.Password != null && model.Password == model.ConfirmPassword)
+                else
                 {
-                    validPass = await UserManager.PasswordValidator.ValidateAsync(model.Password);
-
-                    if (validPass.Succeeded)
-                    {
-                        user.PasswordHash =
-                            UserManager.PasswordHasher.HashPassword(model.Password);
-                    }
-                    else
-                    {
-                        //AddErrorsFromResult(validPass);
-                        return View("Error");
-                    }
-                }
-
-                if ((validEmail.Succeeded && validPass == null) ||
-                        (validEmail.Succeeded && model.Password != string.Empty && validPass.Succeeded))
-                {
-                    IdentityResult result = await UserManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        //AddErrorsFromResult(result);
-                        return View("Error");
-                    }
+                    ModelState.AddModelError("", "Can not edit system admin account.");
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Пользователь не найден");
+                ModelState.AddModelError("", "User not found.");
             }
+
             return View(user);
         }
 
@@ -446,10 +482,9 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationContext()));
                 var user = new User { UserName = model.Name, Email = model.Email, PhoneNumber = model.Phone };
                 IdentityResult resultCreate = await UserManager.CreateAsync(user, model.Password);
-                if (roleManager.RoleExists("user"))
+                if (RoleManager.RoleExists("user"))
                 {
                     if (resultCreate.Succeeded)
                     {
@@ -488,7 +523,7 @@ namespace UI.Controllers
 
             if (user == null)
             {
-                ModelState.AddModelError("", "Некорректное имя или пароль.");
+                ModelState.AddModelError("", "Wrong name or password.");
             }
             else
             {
@@ -505,11 +540,77 @@ namespace UI.Controllers
             return View(details);
         }
 
+        [Authorize]
         public ActionResult SignOut()
         {
             AuthManager.SignOut();
 
             return RedirectToAction("SignIn");
+        }
+
+        [HttpGet]
+        public ActionResult NotRegisteredOrder(string orderContainer)
+        {
+            ViewBag.OrderContainer = orderContainer;
+            return View("NotRegisteredOrder");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> NotRegisteredOrder(NotRegisteredOrderViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("NotRegisteredOrder");
+            }
+
+            if (model.OrdersStringJSON == null)
+            {
+                ModelState.AddModelError("", "Error, empty Local Storage!");
+                return View(model);
+            }
+            else
+            {
+                var orderContainer = new OrderContainer { NotRegisteredUser = true, Phone = model.Phone };
+
+                try
+                {
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    ICollection<Order> orders = js.Deserialize<ICollection<Order>>(model.OrdersStringJSON);
+                    orderContainer.Order = orders;
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Local Storage error!");
+                    return View(model);
+                }
+
+                await _roomService.AddOrderContainerAsync(orderContainer);
+
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "user")]
+        public async Task<JsonResult> RegisteredOrder(string OrdersStringJSON)
+        {
+            var orderContainer = new OrderContainer { NotRegisteredUser = false, UserId = User.Identity.GetUserId() };
+
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                ICollection<Order> orders = js.Deserialize<ICollection<Order>>(OrdersStringJSON);
+                orderContainer.Order = orders;
+            }
+            catch (Exception)
+            {
+                return Json("Local Storage error!");
+            }
+
+            await _roomService.AddOrderContainerAsync(orderContainer);
+
+            return Json("Successful order!");
         }
     }
 }

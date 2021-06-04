@@ -4,17 +4,13 @@ namespace DAL.Entities
 {
     public class Order
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
         [Required]
-        public int QuestRoomId { get; set; }
-        [Required]
-        public virtual QuestRoom QuestRoom { get; set; }
-        [Required]
         public int Count { get; set; }
-        [Required]
+        public int QuestRoomId { get; set; }
+        public virtual QuestRoom QuestRoom { get; set; }
         public int OrderContainerId { get; set; }
-        [Required]
         public virtual OrderContainer OrderContainer { get; set; }
     }
 }

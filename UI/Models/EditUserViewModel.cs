@@ -18,5 +18,7 @@ namespace UI.Models
         [MaxLength(128)]
         [CustomPhone]
         public string Phone { get; set; }
+        [Required]
+        public string Role { get; set; }
     }
 }

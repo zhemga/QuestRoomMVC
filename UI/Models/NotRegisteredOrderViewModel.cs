@@ -2,7 +2,7 @@
 
 namespace UI.Models
 {
-    public class NotRegisteredOrder
+    public class NotRegisteredOrderViewModel
     {
         [Required]
         [CustomPhone]

@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filter\RoomsFilter.cs" />
+    <Compile Include="Implementation\AppRoleManager.cs" />
     <Compile Include="Implementation\AppUserManager.cs" />
     <Compile Include="Implementation\RoomService.cs" />
     <Compile Include="Interfaces\IRoomService.cs" />

@@ -13,8 +13,7 @@ namespace BLL.Implementation
             : base(store)
         { }
 
-        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options,
-            IOwinContext context)
+        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
         {
             ApplicationContext db = context.Get<ApplicationContext>();
             AppUserManager manager = new AppUserManager(new UserStore<User>(db));

@@ -6,23 +6,10 @@
         if (orders != null && orders.length > 0) {
             var orderContainer = [];
             orders.forEach(item => {
-                orderContainer.push({ "roomId": item, "count": 1 });
+                orderContainer.push({ "QuestRoomId": item, "Count": 1 });
             });
 
             localStorage.setItem("orderContainer", JSON.stringify(orderContainer));
-        }
-    }
-
-    if (window.location.href.indexOf(`/Rooms/NotRegisteredOrder`) > -1) {
-        var orderContainer = JSON.parse(localStorage.getItem("orderContainer"));
-        var dataString = $("#dataString");
-
-        if (orderContainer != null && dataString != null && orderContainer.length > 0) {
-            dataString.val(JSON.stringify(orderContainer));
-        }
-        else {
-            alert("Local Storage error!");
-            index();
         }
     }
 
@@ -284,10 +271,10 @@ function decrementValue(id, price) {
 
 function changeCountById(id, count) {
     var orderContainer = JSON.parse(localStorage.getItem("orderContainer"));
-    var index = orderContainer.findIndex(x => x.roomId == id);
+    var index = orderContainer.findIndex(x => x.QuestRoomId == id);
 
     if (orderContainer != null && orderContainer.length > 0 && id > -1 && count > 0) {
-        orderContainer[index] = { "roomId": id, "count": count };
+        orderContainer[index] = { "QuestRoomId": id, "Count": count };
         localStorage.setItem("orderContainer", JSON.stringify(orderContainer));
     }
     else {
@@ -306,7 +293,38 @@ function sumUpAllPrices() {
 }
 
 function notRegisteredOrder() {
-    window.location = `/Rooms/NotRegisteredOrder`;
+    var orderContainer = JSON.parse(localStorage.getItem("orderContainer"));
+
+    if (orderContainer != null && orderContainer.length > 0) {
+        window.location = `/Rooms/NotRegisteredOrder?orderContainer=` + JSON.stringify(orderContainer);
+    }
+    else {
+        alert("Local Storage error!");
+        index();
+    }
+}
+
+function registeredOrder() {
+    var orderContainer = JSON.parse(localStorage.getItem("orderContainer"));
+
+    if (orderContainer != null && orderContainer.length > 0) {
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData();
+        fd.append("OrdersStringJSON", JSON.stringify(orderContainer));
+        xhr.open("POST", "/Rooms/RegisteredOrder");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                index();
+            }
+        };
+        xhr.send(fd);
+    }
+    else {
+        alert("Local Storage error!");
+        index();
+    }
+
+
 }
 
 function signIn() {
