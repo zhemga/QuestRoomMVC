@@ -141,6 +141,11 @@ namespace BLL.Implementation
             await _orderContainerRepository.CreateAsync(orderContainer);
         }
 
+        public void AddOrderContainer(OrderContainer orderContainer)
+        {
+            _orderContainerRepository.Create(orderContainer);
+        }
+
         public async Task DeleteOrderContainerAsync(int id)
         {
             await _orderContainerRepository.DeleteAsync(id);
@@ -149,6 +154,11 @@ namespace BLL.Implementation
         public OrderContainer GetOrderContainer(int id)
         {
             return _orderContainerRepository.Get(id);
+        }
+
+        public async Task EditOrderContainerAsync(OrderContainer orderContainer)
+        {
+            await _orderContainerRepository.UpdateAsync(orderContainer);
         }
     }
 }

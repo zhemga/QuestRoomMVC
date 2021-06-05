@@ -10,6 +10,7 @@
 <div class="container-lg mt-5 text-warning">
     <table class="table table-bordered table-dark border-warning bg-darkgray">
         <tr class="text-greenyellow">
+            <th>Id</th>
             <th>Name</th>
             <th>Amount Of Hours</th>
             <th>Price Per Hour</th>
@@ -26,6 +27,7 @@
             foreach (var order in Model)
             {
                 <tr class="text-warning">
+                    <td>@order.Id</td>
                     <td>@order.Name</td>
                     <td>@order.AmountOfHours</td>
                     <td>@order.PricePerHour $</td>
@@ -34,7 +36,7 @@
             }
             <tr class="text-greenyellow">
                 <td>Total:</td>
-                <td colspan="3">@Model.Sum(i => i.TotalPrice) $</td>
+                <td colspan="4">@Model.Sum(i => i.TotalPrice) $</td>
             </tr>
         }
     </table>

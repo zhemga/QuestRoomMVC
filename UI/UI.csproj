@@ -336,6 +336,7 @@
     <Content Include="Views\Rooms\SignIn.cshtml" />
     <Content Include="Views\Rooms\Cabinet.cshtml" />
     <Content Include="Views\Rooms\OrderDetails.cshtml" />
+    <Content Include="Views\Rooms\ControlOrderContainers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

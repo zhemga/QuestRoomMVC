@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace GameStore.DAL.Repository
 {
-    // Реалізувати нереалізовані методи в EFRepository
     public class EFRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly DbContext _dbContext;
@@ -19,6 +18,12 @@ namespace GameStore.DAL.Repository
             _set = _dbContext.Set<TEntity>();
         }
 
+        public void Create(TEntity entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Added;
+            Save();
+        }
+
         public async Task CreateAsync(TEntity entity)
         {
             _dbContext.Entry(entity).State = EntityState.Added;
@@ -28,6 +33,11 @@ namespace GameStore.DAL.Repository
         private async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
+        }
+
+        private void Save()
+        {
+            _dbContext.SaveChanges();
         }
 
         public async Task DeleteAsync(int id)

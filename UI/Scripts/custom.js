@@ -47,10 +47,6 @@ function showRoomDetails(id) {
     window.location = `/Rooms/Room?id=${id}`;
 }
 
-function addRoom() {
-    window.location = `/Rooms/AddRoom`;
-}
-
 function deleteRoom(id) {
 
     if (!confirm('Are you sure?')) {
@@ -147,14 +143,6 @@ function addFileToList() {
 
 function clearList() {
     $("#listOfImages").val("");
-}
-
-function controlDecorations() {
-    window.location = `/Rooms/ControlDecorations`;
-}
-
-function controlCompanies() {
-    window.location = `/Rooms/ControlCompanies`;
 }
 
 function addOrder(id) {
@@ -367,4 +355,13 @@ function clearCart() {
 
 function showOrderDetails(id) {
     window.location = `/Rooms/OrderDetails?id=` + id;
+}
+
+function acceptOrderContainer(id) {
+    window.location = `/Rooms/AcceptOrder?id=` + id;
+}
+
+function deleteOrderContainer(id) {
+    if (confirm("Do yo really want to delete this order?"))
+        window.location = `/Rooms/DeleteOrder?id=` + id;
 }

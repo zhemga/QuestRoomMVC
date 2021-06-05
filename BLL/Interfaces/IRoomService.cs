@@ -15,7 +15,9 @@ namespace BLL.Interfaces
         Task AddCompanyAsync(Company company);
         Task AddTypeAsync(DecorationType decorationType);
         Task AddOrderContainerAsync(OrderContainer orderContainer);
+        void AddOrderContainer(OrderContainer orderContainer);
         Task EditRoomAsync(QuestRoom room);
+        Task EditOrderContainerAsync(OrderContainer orderContainer);
         Task DeleteRoomAsync(int id);
         Task DeleteCompanyAsync(int id);
         Task DeleteTypeAsync(int id);

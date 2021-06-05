@@ -17,6 +17,7 @@ using BLL.Implementation;
 using UI.Models;
 using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Threading;
 
 namespace UI.Controllers
 {
@@ -574,7 +575,7 @@ namespace UI.Controllers
         public ActionResult NotRegisteredOrder(string orderContainer)
         {
             ViewBag.OrderContainer = orderContainer;
-            return View("NotRegisteredOrder");
+            return View();
         }
 
         [HttpPost]
@@ -582,7 +583,8 @@ namespace UI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("NotRegisteredOrder");
+                @ViewBag.OrderContainer = model.OrdersStringJSON;
+                return View();
             }
 
             if (model.OrdersStringJSON == null)
@@ -614,7 +616,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "user")]
+        //[Authorize(Roles = "user")]
         public async Task<JsonResult> RegisteredOrder(string OrdersStringJSON)
         {
             var orderContainer = new OrderContainer { DateTime = DateTime.Now, IsAccepted = false, NotRegisteredUser = false, UserId = User.Identity.GetUserId() };
@@ -651,11 +653,51 @@ namespace UI.Controllers
         [Authorize(Roles = "user")]
         public ActionResult OrderDetails(int id)
         {
-            var orderContainer = _roomService.GetOrderContainer(id); 
-            if(orderContainer != null && orderContainer.UserId == User.Identity.GetUserId())
+            var orderContainer = _roomService.GetOrderContainer(id);
+            if (orderContainer != null)
             {
-                var orderList = _mapper.Map<List<OrderDetailsViewModel>>(orderContainer.Order);
-                return View("OrderDetails", orderList);
+                if (orderContainer.UserId == User.Identity.GetUserId() || User.IsInRole("admin"))
+                {
+                    var orderList = _mapper.Map<List<OrderDetailsViewModel>>(orderContainer.Order);
+                    return View("OrderDetails", orderList);
+                }
+            }
+            return View("Error");
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult ControlOrderContainers()
+        {
+            var orderContainers = _mapper.Map<List<OrderContainerViewModel>>(_roomService.GetAllOrderContainers());
+            if (orderContainers.Count > 0)
+                return View(orderContainers);
+            return View();
+        }
+
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> AcceptOrder(int id)
+        {
+            var orderContainer = _roomService.GetOrderContainer(id);
+            if (orderContainer != null)
+            {
+                if (orderContainer.IsAccepted != true)
+                {
+                    orderContainer.IsAccepted = true;
+                    await _roomService.EditOrderContainerAsync(orderContainer);
+                }
+                return RedirectToAction("ControlOrderContainers");
+            }
+            return View("Error");
+        }
+
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> DeleteOrder(int id)
+        {
+            var orderContainer = _roomService.GetOrderContainer(id);
+            if (orderContainer != null)
+            {
+                await _roomService.DeleteOrderContainerAsync(id);
+                return RedirectToAction("ControlOrderContainers");
             }
             return View("Error");
         }
