@@ -616,7 +616,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "user")]
+        [Authorize(Roles = "user")]
         public async Task<JsonResult> RegisteredOrder(string OrdersStringJSON)
         {
             var orderContainer = new OrderContainer { DateTime = DateTime.Now, IsAccepted = false, NotRegisteredUser = false, UserId = User.Identity.GetUserId() };
