@@ -346,7 +346,7 @@ function deleteUser(id) {
         xhr.open("POST", "/Rooms/DeleteUser");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                makeAlert(xhr.responseText);
+                alert(xhr.responseText);
                 location.reload();
             }
         };
