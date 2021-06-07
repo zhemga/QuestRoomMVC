@@ -234,17 +234,17 @@
    * ------------------------------------------------------------------------
    */
 
-  var NAME = 'alert';
+  var NAME = 'makeAlert';
   var VERSION = '4.6.0';
-  var DATA_KEY = 'bs.alert';
+  var DATA_KEY = 'bs.makeAlert';
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
   var JQUERY_NO_CONFLICT = $__default['default'].fn[NAME];
-  var SELECTOR_DISMISS = '[data-dismiss="alert"]';
+  var SELECTOR_DISMISS = '[data-dismiss="makeAlert"]';
   var EVENT_CLOSE = "close" + EVENT_KEY;
   var EVENT_CLOSED = "closed" + EVENT_KEY;
   var EVENT_CLICK_DATA_API = "click" + EVENT_KEY + DATA_API_KEY;
-  var CLASS_NAME_ALERT = 'alert';
+  var CLASS_NAME_ALERT = 'makeAlert';
   var CLASS_NAME_FADE = 'fade';
   var CLASS_NAME_SHOW = 'show';
   /**
@@ -343,13 +343,13 @@
       });
     };
 
-    Alert._handleDismiss = function _handleDismiss(alertInstance) {
+    Alert._handleDismiss = function _handleDismiss(makeAlertInstance) {
       return function (event) {
         if (event) {
           event.preventDefault();
         }
 
-        alertInstance.close(this);
+        makeAlertInstance.close(this);
       };
     };
 

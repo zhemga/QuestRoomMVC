@@ -69,7 +69,7 @@ $(function () {
             input.trigger('fileselect', label);
         }
         else {
-            alert("You can choose only one image at once!")
+            makeAlert("You can choose only one image at once!")
         }
 
     });
@@ -83,7 +83,7 @@ $(function () {
             if (input.length) {
                 input.val(label);
             } else {
-                if (log) alert(label);
+                if (log) makeAlert(label);
             }
 
         });
@@ -105,7 +105,7 @@ function addUrlToList() {
         listOfImages.val(listOfImages.val() + imageUrl);
     }
     else {
-        alert("Wrong URL!");
+        makeAlert("Wrong URL!");
     }
 }
 
@@ -137,7 +137,7 @@ function addFileToList() {
         }
     }
     else {
-        alert("Please, choose one file.")
+        makeAlert("Please, choose one file.")
     }
 }
 
@@ -159,13 +159,23 @@ function addOrder(id) {
         orders.push(id);
         localStorage.setItem("orders", JSON.stringify(orders));
         loadCart();
-        alert("Order was added successfully!");
+        makeAlert("Order was added successfully!");
     }
-    else
-        alert("This order has already added!");
+    else {
+        makeAlert("This order has already added!");
+    }
 
 
     this.disabled = false;
+}
+
+function makeAlert(string) {
+    $(".alert").html(string);
+    $(".alert").show();
+    setTimeout(
+        function () {
+            $(".alert").hide();
+        }, 1000);
 }
 
 function deleteOrder(id) {
@@ -189,10 +199,10 @@ function deleteOrder(id) {
                 index();
         }
         else
-            alert("This order doesn't exist!");
+            makeAlert("This order doesn't exist!");
     }
     else {
-        alert("Your localstorage is empty. Error!");
+        makeAlert("Your localstorage is empty. Error!");
     }
 
     this.disabled = false;
@@ -219,7 +229,7 @@ function loadCart() {
 function openCart() {
     var orders = JSON.parse(localStorage.getItem("orders"));
     if (orders == null || orders.length < 1)
-        alert("Cart is empty!");
+        makeAlert("Cart is empty!");
     else {
         window.location = `/Rooms/Cart?data=${JSON.stringify(orders)}`;
     }
@@ -266,7 +276,7 @@ function changeCountById(id, count) {
         localStorage.setItem("orderContainer", JSON.stringify(orderContainer));
     }
     else {
-        alert("Local Storage error!");
+        makeAlert("Local Storage error!");
     }
 }
 
@@ -287,7 +297,7 @@ function notRegisteredOrder() {
         window.location = `/Rooms/NotRegisteredOrder?orderContainer=` + JSON.stringify(orderContainer);
     }
     else {
-        alert("Local Storage error!");
+        makeAlert("Local Storage error!");
         index();
     }
 }
@@ -302,13 +312,14 @@ function registeredOrder() {
         xhr.open("POST", "/Rooms/RegisteredOrder");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                makeAlert(xhr.responseText);
                 index();
             }
         };
         xhr.send(fd);
     }
     else {
-        alert("Local Storage error!");
+        makeAlert("Local Storage error!");
         index();
     }
 
@@ -335,7 +346,7 @@ function deleteUser(id) {
         xhr.open("POST", "/Rooms/DeleteUser");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                alert(xhr.responseText);
+                makeAlert(xhr.responseText);
                 location.reload();
             }
         };

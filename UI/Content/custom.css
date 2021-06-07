@@ -189,3 +189,16 @@ textarea {
     display: flex;
     justify-content: center;
 }
+
+.cart-alert {
+    display: none;
+    position: fixed !important;
+    z-index: 999 !important;
+    top: 80vh !important;
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+.bg-transparent-70{
+    background-color: rgba(0, 0, 0, 0.7);
+}
