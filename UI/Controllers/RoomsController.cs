@@ -246,6 +246,11 @@ namespace UI.Controllers
 
             var roomToEdit = _mapper.Map<QuestRoom>(model);
 
+            if (!roomToEdit.ImagesUrl.Contains(model.ImagesUrlForForm))
+            {
+                DeleteImages(roomToEdit.ImagesUrl);
+            }
+
             int? validationTypeId = _roomService.GetAllTypes().Where(x => x.Name == roomToEdit.DecorationType.Name).Select(x => x.Id).FirstOrDefault();
             int? validationCompanyId = _roomService.GetAllCompanies().Where(x => x.Name == roomToEdit.Company.Name).Select(x => x.Id).FirstOrDefault();
 
