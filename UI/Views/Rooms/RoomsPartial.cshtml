@@ -57,14 +57,16 @@
                     <br />
                     <hr class="bg-dark" />
                     <a class="btn bg-warning m-1 float-right" onclick="showRoomDetails(@item.Id)">Show details</a>
-                    <a class="btn bg-greenyellow m-1 float-right" onclick="addOrder(@item.Id)">Add in order list</a>
+                    <a class="btn bg-greenyellow m-1 float-right d-none d-lg-block" onclick="addOrder(@item.Id)">Add in order list</a>
 
                     @if (this.User.IsInRole("admin"))
                     {
-                        <br />
-                        <hr class="bg-darkgray mt-3" />
-                        <a class="btn bg-danger m-1 float-right" onclick="deleteRoom(@item.Id)">Delete</a>
-                        <a class=" btn bg-danger m-1 float-right" onclick="editRoom(@item.Id)">Edit</a>
+                        <section class="d-none d-lg-block">
+                            <br />
+                            <hr class="bg-darkgray mt-3" />
+                            <a class="btn bg-danger m-1 float-right" onclick="deleteRoom(@item.Id)">Delete</a>
+                            <a class=" btn bg-danger m-1 float-right" onclick="editRoom(@item.Id)">Edit</a>
+                        </section>
                     }
 
                 </div>
