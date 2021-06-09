@@ -170,12 +170,13 @@ function addOrder(id) {
 }
 
 function makeAlert(string) {
+    $(".alert").hide();
     $(".alert").html(string);
     $(".alert").show();
     setTimeout(
         function () {
             $(".alert").hide();
-        }, 1000);
+        }, 500);
 }
 
 function deleteOrder(id) {

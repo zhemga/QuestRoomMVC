@@ -94,19 +94,22 @@
     }
 
     <main class="d-flex flex-row align-items-center rounded bg-darkgray w-75 mb-3 mt-3">
-        <div class="p-5 w-60">
+        <div class="p-lg-5 w-60">
             <h3 class="text-green">Overview</h3>
             <p>@Model.Description</p>
             <h3 class="text-green">Who are we?</h3>
             <p>We are company <strong>@Model.CompanyName</strong>, our entertaiment center address is <strong>@Model.Address</strong></p>
             <h3 class="text-green">How to order?</h3>
             <p>Call <strong class="text-warning">@ViewBag.Phone</strong> or by website.</p>
-            <a class="btn bg-greenyellow m-1 p-3 pl-5 pr-5" onclick="addOrder(@Model.Id)">Add in order list</a>
-            @{
-                <hr class="bg-dark mt-3" />
-                <a class=" btn bg-danger m-1" onclick="editRoom(@Model.Id)">Edit</a>
-                <a class="btn bg-danger m-1" onclick="deleteRoom(@Model.Id)">Delete</a>
-            }
+            <section class="d-lg-block d-none">
+                <a class="btn bg-greenyellow m-1 p-3 pl-5 pr-5" onclick="addOrder(@Model.Id)">Add in order list</a>
+                @if (this.User.IsInRole("admin"))
+                {
+                    <hr class="bg-dark mt-3" />
+                    <a class=" btn bg-danger m-1" onclick="editRoom(@Model.Id)">Edit</a>
+                    <a class="btn bg-danger m-1" onclick="deleteRoom(@Model.Id)">Delete</a>
+                }
+            </section>
         </div>
         <div class="d-flex flex-column w-40 h-100 m-2">
             <div class="p-3 m-2 bg-warning rounded">

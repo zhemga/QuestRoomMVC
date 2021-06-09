@@ -496,6 +496,10 @@ namespace UI.Controllers
         [AllowAnonymous]
         public ActionResult SignUp()
         {
+            if(this.User.Identity.IsAuthenticated)
+            {
+                return View("Error");
+            }
             return View("SignUp");
         }
 
@@ -503,6 +507,10 @@ namespace UI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SignUp(SignUpUserViewModel model)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return View("Error");
+            }
             if (ModelState.IsValid)
             {
                 var user = new User { UserName = model.Name, Email = model.Email, PhoneNumber = model.Phone };
@@ -533,6 +541,10 @@ namespace UI.Controllers
         [AllowAnonymous]
         public ActionResult SignIn(string returnUrl)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return View("Error");
+            }
             ViewBag.returnUrl = returnUrl;
             return View();
         }
@@ -542,6 +554,11 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SignIn(SignInUserViewModel details)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return View("Error");
+            }
+
             var user = await UserManager.FindAsync(details.Name, details.Password);
 
             if (user == null)

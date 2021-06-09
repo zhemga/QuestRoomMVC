@@ -2,9 +2,9 @@
 
 @foreach (var item in Model)
 {
-    <div class="d-flex flex-sm-column flex-xl-row border bg-darkgray align-items-center border-warning p-3">
-        <img class="h-100px w-150px ob-fit-cover" src="@item.ImagesUrl[0]" />
-        <div>
+    <div class="d-flex flex-column flex-lg-row border bg-darkgray align-items-center border-warning p-3">
+        <img class="h-100px w-120px o b-fit-cover mr-lg-4" src="@item.ImagesUrl[0]" />
+        <div class="d-flex flex-lg-nowrap">
             <span class="text-warning ml-xl-5 h5">Id: @item.Id</span>
         </div>
         <div class="w-20 ml-xl-2">
