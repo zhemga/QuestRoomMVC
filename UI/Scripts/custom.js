@@ -142,6 +142,18 @@ function addFileToList() {
 }
 
 function clearList() {
+    var formdata = new FormData();
+    formdata.append("ImagesUrl", $("#listOfImages").val());
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/Rooms/ClearList');
+    xhr.send(formdata);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    }
+
     $("#listOfImages").val("");
 }
 
@@ -170,7 +182,6 @@ function addOrder(id) {
 }
 
 function makeAlert(string) {
-    $(".alert").hide();
     $(".alert").html(string);
     $(".alert").show();
     setTimeout(

@@ -201,6 +201,28 @@ namespace UI.Controllers
             return Json("/Files/Images/" + fileName);
         }
 
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public JsonResult ClearList(string ImagesUrl)
+        {
+            DeleteImages(ImagesUrl);
+            return Json("DELETED");
+        }
+
+        private void DeleteImages(string ImagesUrl)
+        {
+            var imagesList = ImagesUrl.Split(',').ToList();
+
+            foreach (var item in imagesList)
+            {
+                var path = HttpContext.Server.MapPath("~") + item;
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            }
+        }
+
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult EditRoom(int id)
@@ -248,13 +270,19 @@ namespace UI.Controllers
         {
             try
             {
-                await _roomService.DeleteRoomAsync(id);
-                return RedirectToAction("Index");
+                var roomToDelete = _roomService.GetRoom(id);
+                if (roomToDelete != null)
+                {
+                    await _roomService.DeleteRoomAsync(id);
+                    DeleteImages(roomToDelete.ImagesUrl);
+                    return RedirectToAction("Index");
+                }
             }
             catch (Exception)
             {
                 return View("Error");
             }
+            return View("Error");
         }
 
         [HttpGet]
